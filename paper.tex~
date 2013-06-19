@@ -1,0 +1,313 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{natbib}
+%correct punctuation for MBE
+\bibpunct[,]{(}{)}{;}{a}{}{,}
+
+\usepackage{amsmath}
+
+\renewcommand{\bottomfraction}{.9}
+\renewcommand{\topfraction}{.9}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{.9}
+
+\linespread{1.5}
+\begin{document}
+
+\title{\textbf{Rationalizing machupo virus mutant-receptor binding by molecular dynamics simulation}}
+\author{Austin G. Meyer$^{1,2,4*}$, Sara L. Sawyer$^{3}$, Andrew D. Ellington$^{2}$,\\and Claus O. Wilke$^{1}$}
+\date{}
+
+\maketitle
+\noindent
+Address:\\
+$^1$Section of Integrative Biology, Institute for Cellular and Molecular
+Biology, and Center for Computational Biology and Bioinformatics. The University
+of Texas at Austin, Austin, TX 78712, USA.\\
+$^2$Department of Chemistry and Biochemistry, Institute for Cellular and Molecular 
+Biology, The University of Texas at Austin, Austin, TX 78712, USA.\\
+$^3$Section of Molecular Genetics and Microbiology, Institute for Cellular and Molecular 
+Biology, The University of Texas at Austin, Austin, TX 78712, USA.\\
+$^4$School of Medicine, Texas Tech University Health Sciences Center, 
+Lubbock, TX 79430, USA.\\
+
+\bigskip
+\noindent
+$^*$Corresponding author\\
+$\phantom{^*}$Email: austin.meyer@utexas.edu\\
+$\phantom{^*}$Phone: +1 512 971 0123\\
+
+\bigskip
+\noindent
+Manuscript type: research article
+
+\bigskip
+\noindent Keywords: protein-protein interaction, molecular dynamics, arenavirus, machupo
+
+\newpage
+\begin{abstract}
+Machupo virus (MACV) is a New World arenavirus that is currently emerging from a rodent reservoir into the human population. For New World arenaviruses, it is known that transferrin receptor binding is a major determinate of host range variation. To better understand the relationship between the virus and its human host, we used a structure-based computational model to interrogate the effects of mutations in the interface between the MACV spike glycoprotein (MACVGP) and the Human transferrin receptor (hTfR1). Existing computational methods to probe protein-protein interactions perform poorly with non-alanine mutations and on the flexible loops encountered in many host-virus interactions. We applied steered molecular dynamics (SMD) simulations to induce protein dissociation; using descriptive statistics, we were able to differentiate mutant complexes and biochemically rationalize available infectivity data. The previously published co-crystal structure implies two important hydrogen bonding networks in the MACVGP/hTfR1 interface; our simulations confirm one of them is critical for viral binding. Also, since mutations in polar residues in another putative network do not change viral binding, we can conclude the second network is likely an artifact of crystallization. Finally, we found a viral site known to be critical for infection, may mark an important evolutionary suppressor site for infection-diminishing hTfR1 mutants. Taken together, our computational data rationalize many of the available experimental data, further refine our biochemical understanding of this system, and point to the most likely next evolutionary step for MACV.
+\end{abstract}
+
+\section*{Introduction}
+In the viral life cycle, cellular fusion is the first and perhaps most critical step. The protein-protein interaction at the host-virus interface represents an upper limit to viral evolvability: If the host evolves to completely block binding, it escapes infection in perpetuity. Despite the importance of this interaction, there is a surprising lack of effective computational tools to make predictions for viral mutations.
+
+MACV is a clade B New World arenavirus that presents clinically with a dramatic hemorrhagic fever and high fatality rate \citep{Rad2008}. It is classified as a US National Institute of Allergy and Infectious Disease Category A Priority Pathogen and is listed among US Select Agents and Risk Group 4 Pathogens. Although the virus cannot efficiently transfer among humans, there is a substantial risk to public health from natural and artificial selection for improved infectivity. Evolutionary data suggests the viral binding event is the critical bottleneck for efficient mammalian infection, and in many cases can be used as a proxy for infectivity \citep{Rad20112}. Further, it is known that several targeted mutations in the hTfR1 can completely block infection in various South American rodent species. However, the exact biochemical mechanism of rodent resistance is an unresolved problem. 
+
+The transferrin receptor is the primary receptor used by MACV for fusion and invasion. Cellular entry is mediated by the MACVGP binding to the apical domain of hTfR1. While hTfR1 is used by the host for iron-scavenging, all such portions of the receptor are isolated on the basilar, membrane-associated domain; without any obvious function, the purpose of the hTfR1 apical domain remains an open question. According to a published co-crystal structure a 15 amino acid flexible loop on MACVGP is responsible for viral binding \citep{Abraham2010,Rad20112}, and many of the interface interactions are mediated by extensive hydrogen bond networks \citep{Abraham2010}. Alanine-scanning and whole cell infectivity assays have identified several sites in both MACVGP and hTfR1 that are probably critical for establishing infection \citep{Rad20111,Rad20112}.
+
+Inspired by the relatively large canon of experimental data \citep{Abraham2010,Rad20111,Rad20112}, we applied an all-atom molecular dynamics method to computationally interrogate a number of receptor and viral mutants; as a proxy for relative binding affinity, we were able to use several simpler descriptive statistics. In WT and mutant complexes, after inducing dissocation of MACVGP from a stationary hTfR1, we could resolve relative differences in unbinding statistics and predict significant affinity changes. At sites known to be important for successful viral infection, we tested many additional mutations; we found that the mechanistic cause of the phenotypic effect is often not as simple as the static structure suggests. We show mutations at Tyr211 to small, nonpolar amino acids will produce a disruption in viral fusion. Also, although Asn348 in hTfR1 is important for viral fusion, mutations there are not likely to affect viral entry. Moreover, our computational data suggests a mutation to alanine at site 111 in MACVGP may act as a major supressor to hydrophobic, infection-blocking mutations at Tyr211 in hTfR1. Finally, our study offers an all-atom steered molecular dynamic approach to avoid the pitfalls of several existing methods used to evaluate mutations in host-virus protein-protein interfaces.
+
+\section*{Materials and Methods}
+
+\subsection*{System Modeling}
+We used the protein visualization software PyMOL \citep{PyMOL} to remove residues 121-190, 301-329, and 383-756 in the hTfR1; no residues were removed from the viral protein. We also removed 10 sugar residues from the native structure. For the purposes of notation, a `v' will always precede the MACVGP site.
+
+After system reduction, the Visual Molecular Dynamics (VMD) \citep{Humphrey1996} package along with its system of back-ends was used for all subsequent modeling. The Orient add-on package allowed us to rotate the system axis such that the direction of steering was oriented directly down the z-axis. De-glycosylation simplified the system such that Autopsf could easily find the chain terminations and patch them appropriately. The Solvate package was used to generate a TIP3P water model with a 5 \AA ngstrom buffer (relative to the maximum dimensions of the proteins) on all sides except down the positive z-axis where a 20 \AA ngstrom buffer was created. Finally, we used the Autoionize package to place 150 millimolar NaCl and neutralize the total system charge. In the end, each modeled system had approximately 28,000 atoms.
+
+\subsection*{Equilibration}
+NAMD was used for all simulations in this study \citep{Phillips2005}. In addition to the modeled system, for equilibration we generated a file with a fixed $\alpha$-carbon backbone; this was accomplished by setting $\beta = 1$. Further, we generated a file with fixed $\alpha$-carbon atoms at residues 41-92 (numbered linearly, in this case, starting at 1 for the first amino acid as was required for VMD) in the hTfR1. The second file was used to affix a harmonic restraint thus preventing any unfolding due to system reduction. More importantly, the harmonic restraint allowed the protein complex to equilibrate while preventing any drift from its predefined orientation. Finally, we calculated the system center and dimensions for use in molecular dynamics settings.
+
+We used the Charmm27 \citep{Brooks1983} all atom force field. The initial system temperature was set to 310K. Several typical MD settings were used including switching and cutoff; in addition, we used a 2 femtosecond time step with rigid bonds (the exact configuration is provided in the supplement). We used periodic boundary conditions with the particle mesh ewald (PME) method of computing full system electrostatics outside of the explicit box. Furthermore, we used a group pressure cell, flexible box, and langevin piston during equilibration. Finally, a harmonic restraint (called harmonic constraint in VMD) was set as stated previously.
+
+To start the simulation, the langevin piston was switched off and the system was minimized for 1000 steps. Next, the fixed backbone was released, and the system was minimized for an additional 1000 time steps. Subsequently, the system was released into all-atom molecular dynamics for 3000 steps. Finally, the langevin piston was turned on and the system was simulated for 2 ns (1,000,000 steps) of chemical time. For each mutant, twenty independent replicates were run with an identical protocol.
+
+\subsection*{Steered Molecular Dynamics}
+Following equilibration, the final state of each simulation was used to generate a file fixing the $\alpha$-carbon on residues 1, 58, 73-83, 96, 136, 137, 138, and 161 (again with linear numbering) in the hTfR1. Also, the $\alpha$-carbon of all residues (163-318 in linear numbering) in the MACVGP were given an occupancy of 1, indicating they had an applied force during the simulation. 
+
+In every way possible the subsequent steering simulation had the same parameters as the equilibration simulation. Thus, the steered molecular dynamics (SMD) \citep{Is2001B} simulation was a typical restart with slightly different settings. Periodic boundary conditions were incorporated as part of the system and PME was again used to approximate full system electrostatics. In addition, we first tuned the pulling velocity for practical time considerations. Subsequently, the spring constant was adjusted to ensure sufficient signal to noise with the given velocity. As a result, the spring constant was set to 5 (units), velocity set to 2 (units), and direction down the positive $z$-axis.
+
+Finally, SMD was run for 15 ns (7,500,000) of chemical time. For each simulation, we randomly selected one of the equilibration runs for restart; per mutant, all of the results presented here are from 50 such replicates. All MACVGP/hTfR1 complexes separated by greater than 4 \AA ngstroms and many separated to 10 or more. As Figure 1 indicates, 4 \AA\ separation was more than sufficient to compare the point mutant variation in most cases. 
+
+To leave the final trajectory of a tractable size, only 1000 evenly space frames were retained from each simulation, leaving a final trajectory size of 323 MB. See the supplemental movie for a representative unbinding trajectory. All SMD simulations were performed on the Hrothgar cluster at Texas Tech University using NAMD 2.9. Each simulation was parallelized over 60 computational cores and utilized approximately 20 hours of computing time. The total chemical time simulated for this project was nearly 10 $\mu$s, requiring slightly over 1 million cpu-hours.
+
+\subsection*{Post-processing}
+The python packages MDAnalysis \citep{Agrawal2011} and ProDy \citep{Bakan2011} were both used at various points in post-processing. The molecular trajectory (comprising the atomic coordinates per time) was parsed to compute the center-of-mass for each of the two complexes. The starting center-of-mass distance was set to zero and the distance was re-computed at each time step relative to the starting distance. The force is output directly to the standard log file.
+
+The statistical package R was used for all further analysis and visualization. Each of the 50 independent trajectories per mutant produced a fairly noisy force curve. To reduce the noise, we averaged each point with a 75 point interpolation window; the window ensured the maximum force was never cut off due to lost time steps (caused by averaging) near the beginning of the simulation. The two primary descriptive statistics we used were maximum interpolated force and total area under the interpolated curve. We used the pairwise.t.test function with the FDR p-value correction to test for significance. The ggplot \citep{ggplot} package was used to generate most of the figures. 
+
+\section*{Results}
+
+\subsection*{The MACVGP/hTfR1 interface}
+The MACVGP/hTfR1 interface marks a particularly important and useful test system. There are several sites on both the human and viral protein known to affect the infectivity phenotype of MACV; virtually all of the important sites have been mapped by \textit{in vitro} flow-cytometry based infectivity assays. Since cellular binding and invasion is required for viral infection, the biochemical properties of host-virus protein-protein interfaces have a direct impact on the fitness of viruses. As a consequence, infectivity assays can provide much needed information about the strength of the host-virus interaction. The MACVGP/hTfR1 interface appears not to be dominated by one particular type of interaction (electrostatics, hydrogen-bonding, or van der Waals). In addition, much of the fusion domain of MACVGP is on a flexible loop, making many other computational techniques only marginally useful \citep{Baker2011}. The complex nature of this interface represents a particularly difficult challenge for traditional computational analysis. 
+
+To drive the system through equilibrium, we applied an external force to one of the proteins in the host/virus complex. To begin, we required an experimentally determined atomic model. Due to practical computational limits, the model system needed to be reduced to the smallest number of atoms that were capable of producing empirically meaningful results; in addition, the complex was subsequently modeled into a physiologically meaningful biochemical environment. To apply a driving force, one of the two proteins was anchored in 3D space while a force was applied to the other. We then computed the force and distance at each time step to develop a representative dissociation curve for each mutant; each of our test statistics was derived from the force versus distances curves.
+
+We used the experimentally determined MACVGP/hTfR1 structure (PDBID: 3KAS) \citep{Abraham2010}. The hTfR1 has two mostly independent domains; one interacts with MACVGP while the other is membrane associated. The independent nature of the two domains meant we were able to remove the membrane-associated domain without significantly affecting the MACVGP/hTfR1 interaction. Figure 2 shows a model of the initial structure and that of the pared structure. Although MACVGP has several glycosylated residues, we opted to use the de-glycosylated protein for this study. The complexity of correctly parameterizing diverse sugar moieties is outside of the scope of this paper. Furthermore, although it is known that MACVGP is glycosylated, and some of those sugars contact hTfR1, the effect of those contacts \textit{in vivo} is still unresolved \citep{Abraham2010}.
+
+\subsection*{Steered molecular dynamics approach}
+We applied a method using steering forces in molecular dynamics simulations to investigate the effects of point mutations at the MACVGP/hTfR1 interface. Conceptually, we use an applied force to pull the viral glycoprotein away from its human receptor and measure the resulting force. From the simulation, we can calculate physically relevant quantities \citep{Is2001A,Is2001B}. As we are more interested in the phenotypic impact of interface mutations, rather than physically rigorous calculations, we opted for more biologically intuitive descriptive statistics (Table 1).
+
+To ensure a natural solution structure, we performed an initial equilibration phase to reduce the intrinsic crystallization distortions. First, we generated a physically realistic simulation world around the protein complex; this environment included an explicitly modeled bath of water, and a physiologically relevant concentration of ions. Next, with a fixed $\alpha$-carbon backbone we carried out successive rounds of energy minimization, followed by heating, and backbone release. Last,  with minimal restraints a short round of all-atom molecular dynamics \citep{Cuendet2008} was performed. We used the final state from each equilibrated system to restart another MD simulation. For SMD, at the centroid of several atoms a force was applied to a single point. By using a known spring constant, and pulling with a constant velocity, we could calculate the applied force of dissociation \citep{Cuendet2008,Cuendet2011}. A typical averaged force curve comparison can be seen in Figure 1. The force curves for each mutant were smoothed either by averaging over many replicates as in Figure 1 or by selecting an interpolation window for averaging; the latter approach was used for statistical analysis. In addition, to minimize the computational time in unproductive molecular dynamics, we shortened simulation time such that the interaction just barely dropped to zero. As seen in Figure 1, this distance was relatively consistent among mutants; supplement 1 illustrates the separation distance between peptide domains.
+
+\subsection*{Comparative analysis of MACVGP/hTfR1 interface}
+Before systematically applying SMD to the MACVGP/hTfR1 interaction, we needed to ensure the method was sufficiently sensitive to distinguish between relatively minor point mutations. While SMD has been applied previously to measure the binding energy of high-affinity T-cell receptor interactions \citep{Cuendet2008,Cuendet2011}, to our knowledge the method has never been used previously to parse small differences in a complex energy landscape. For mutant comparison, we chose to use descriptive statistics rather than physically rigorous calculations. Several residues on both proteins appear to mediate putative hydrogen-bonding interactions. We selected three sites total; Tyr211 and Asn348 in the hTfR1 and vArg111 in MACV. For notation purposes, the viral site is always referred to with a preceding `v'. We initially tested alanine substitutions congruent with the traditional experimental and computational approach.
+
+For the sake of reliability, we smoothed each of the force curves over a 75 time point interpolation window. In many cases, maximum force was sufficient to distinguish mutants (Table 2), and AUC was able to add a few more statistically significant differences (Table 3). Relative to WT one alanine mutation produced a very large difference in the maximum force and area of the force curve (AUC) (Figure 1). Although only one point mutant could be resolved from the WT complex, among the array of substitutions we tested, two of the three sites displayed very large affinity changes. As more mutants are tested, clustering them into one of three classes may produce more consistent statistical results. 
+
+Considering the involvement of extended hydrogen-bonding networks, it was not clear that alanine mutations, even those that should destroy such networks, would significantly change the strength of interaction. One major advantage of first principles simulations is the ability to test mutations other than alanine without additional underlying assumptions in the energy function. We made additional mutations based on biochemical intuition or available experimental data to chemically diverse amino acids including tryptophan, lysine, aspartate, and threonine. Several mutations caused significant relative affinity changes. In addition, to detect synergistic effects, we tested several double mutants where both mutations appeared to cause reduced binding; then, we compared the size of those differences to reduced binding single mutants (Figure 3).
+
+In total, we tested 7 point mutants and 3 double mutants in addition to the WT complex. The largest single mutant impact was the alanine mutation Tyr211Ala in the hTfR1 ($ p < 0.001 $). Via \textit{in vitro} flow-cytometry infection assays or by known host-range limitations, several mutations at this site have proven capable of causing loss-of-infection \citep{Rad2008,Rad20111,Rad20112}. Most likely this effect is caused by the destruction of a critical hydrogen bond to Ser113 in the MACVGP; the lost hydrogen bond would lead to the subsequent loss of a large hydrogen-bonding network seen in the crystal structure \citep{Abraham2010}. In agreement with the static structure, our molecular dynamics simulations show Tyr211 is involved in a large hydrogen-bonding network (results not shown). 
+
+Although Tyr211Ala appears to have a large impact on binding affinity, the single mutant provided little underlying biochemical rationale. Since alanine is both smaller than tyrosine and also incapable of participating in hydrogen-bond interactions, more mutations were needed to probe the critical biochemical difference. First, we substituted smaller side chains that, like tyrosine, were capable of hydrogen bonding; it is known that several substitutions at Tyr211 are the result of pressure on hosts in rodent populations \citep{Rad2008,Rad20111,Rad20112}. Both Tyr211Asp and Tyr211Thr proved incapable of causing reduced binding affinity; in fact, both mutations caused a significant increase in relative binding affinity (Figure 2). This is not surprising considering the fact that Tyr211 participates in a bonded network rather than independently. Combined with some biochemical intuition, these results imply that a mutation to other polar residues would not affect the dynamics of binding directly. Since it has been shown that MACVGP binding does little to affect hTfR1 structure \citep{Abraham2010}, such effects are likely exerted upstream through translation, transport, or slight folding differences.
+
+We also simulated several point mutations at Asn348 in the hTfR1. Asn348Lys is reported in the literature to cause reduced infectivity \textit{in vivo} \citep{Rad2008,Abraham2010}. Further, in the crystal structure two residues on the MACVGP and at least three on hTfR1 are involved in a fairly extensive hydrogen-bonding network. Initially we tested the alanine mutation which resulted in a slightly higher but not statistically significant difference from WT (Table 4). In addition, the Asn348Lys mutation, known to have a phenotypic effect, showed no significant difference from WT; similarly, Asn348Trp was not significantly different from WT. On the other hand, there was a detectable difference between Asn348Ala and Asn348Lys (Table 2 and Table 3), with Asn348Lys being a weaker binder; also, Asn348Trp showed nearly identical results to Asn348Lys. It seems, in contrast to Tyr211, the critical difference at position 348 in hTfR1 is caused by size exclusion rather than by the destruction of a hydrogen-bonding network; this can be deduced by noting that Asn348Trp and Asn348Lys produce nearly identical affinity changes (Table 4). To check the consistency of our results, we hypothesized the combination of Tyr211Ala and Asn348Trp, being chemically disconnected in two different hydrogen bonding networks, would lead to a synergistic loss-of-binding. As expected, the double mutant was the weakest binding mutant tested ($ p < 10^{-6} $) (Table 2 and Table 3) in this study.
+
+Last, we tested a single mutation in the MACVGP, vArg111Ala. It has previously been reported that vArg111Ala causes a loss-of-infection during in vitro infectivity assays \citep{Rad20112}. While the data shows a lower maximum force and total energy, none of our test statistics showed a significant difference between WT and Arg211Ala (Table 2 and Table 3). However, in combination with Tyr211Ala, vArg111Ala in the MACVGP appeared capable of suppressing the loss-of-binding caused by Tyr211Ala. Although unexpected, this result may not be so surprising since we were replacing a hydrogen bonding network with a hydrophobic interface.
+
+\section*{Discussion}
+We have applied a method utilizing steering forces in all-atom molecular dynamics simulations to evaluate the effects of mutations at the MACVGP/hTfR1 interface. We modeled mutations at several sites in the MACVGP/hTfR1 interface, and verified our computational protocol was sensitive enough to distinguish point mutants in hTfR1; further, we identified several test statistics that may be important parameters for infectivity. We systematically tested several point mutations to understand their contribution to the binding interaction. In the case of Asn348Lys, the loss-of-infectivity seen \textit{in vivo} could not be easily inferred from the static structure; the critical difference for mutations at Asn348 lies in size and charge restriction. Further, we have shown the cause of diminished infectivity in the viral single-mutant vArg111Ala is probably not due to binding energy differences. We also found that a negatively polar residue at site 211 in hTfR1 is absolutely critical for a tight-binding interaction; any non-polar mutation at Tyr211 in hTfR1 is likely to completely halt viral entry and dramatically decrease the chances of MACV infection. However, our data suggest the viral mutation vArg111Ala may restore the infective potential of MACV that was previously destroyed by a Tyr211Ala hTfR1 mutation.
+
+Making predictions regarding the effects of non-alanine mutations at protein-protein interfaces has thus far met with little success. There are several major obstacles that have contributed to this failure. One issue is the enormous number of chemically allowed three dimensional configurations in proteins \citep{Gumbart2012}. There are perhaps three, but more likely two, broadly useful computational approaches to make predictions about the relative strength of protein-protein interactions. First, to be physically rigorous one can try equilibrium all-atom simulations from physical first principles \citep{Gumbart2012}. The most straightforward approach would be to define the fundamental physical equations governing the system of interest, then simulate for a sufficiently long time period. After equilibrium is reached, one could compute a binding constant by observing the fractional association/dissociation time in a single long simulation. Unfortunately, due to limited computational power and available methods, reaching equilibrium with a simulated protein system is truly a herculean task and verifying it is essentially impossible \citep{Gumbart2012}. Second, to reduce computational complexity several studies have used rigid body docking and machine learning \citep{Vreven2011,Vreven2012,Bajaj2011,Hwang2010}. Unfortunately, due to their dependence of available data, these methods often suffer in applications to novel systems. Third, there are also several hybrid approaches exploiting non-equilibrium calculations within the context of all atom simulations \citep{Is2001A,Is2001B,Park2004,Baker2011}. Many of these methods have either not yet been applied to protein-protein interactions due to practical limitations or produce inconsistent results when larger structural rearrangements are critical for affinity changes.
+
+By extending the SMD technique to investigate a protein-protein interactions we have, in many ways, changed the scope of its application. Traditionally this technique is either applied to compute equilibrium quantities via a non-equilibrium approximation \citep{Park2003,Park2004,Buch2011,Giorgino2012}, used to estimate protein stability through unfolding \citep{Lu1999}, or used to calculate the absolute free energy of small molecule ligand-binding \citep{Dixit2001}. Likewise, others have used SMD to understand the process of binding and unbinding at a resolution unmatched by experiment \citep{Cuendet2011,Giorgino2012}. And still others apply driving forces to untie polypeptide knots in toy systems \citep{Sulkowska2010}. Here, we have shown SMD can provide some insight into the \textit{relative} strength of protein-protein interactions; in contrast to more traditional absolute affinity calculations, relative binding is much more useful for practical application. Further, via whole cell infectivity assays it is often difficult to parse the various biophysical contributions to infectivity. Our method can eliminate at least one of the usual suspects (direct biochemical interactions), opening other avenues for subsequent experimental investigation.
+
+Our findings rationalize several effects observed in both infectivity data and rodent populations \citep{Rad2008,Rad20111}. We found that some substitutions at positions 211 and 348 did negatively affect the strength of viral binding. In the two cases, the computational data suggests the reason and nature of the effects are very different. Congruent with infectivity data, mutations at Tyr211 often have a dramatic effect on receptor binding \citep{Rad2008,Rad20111}. Tyr211Ala alone produces such a large decrease in affinity that it can be easily distinguished from the WT complex. Structural analysis reveals the biochemical cause involves the destruction of a critical hydrogen bonding network with Ser113 and vArg111 in MACVGP. Further, Tyr211Asp and Tyr211Thr were easily resolved from the WT complex, but descriptitve statistics suggest they cause an increase in affinity. As a result, we predict experimental structural analysis will show Tyr211Asp and Tyr211Thr mutations cause a relatively dramatic tertiary structure deviation. Given that our model starts from an associated complex, it is not surprising that Tyr211Asp would cause increased rather than decreased affinity; aspartate is charged rather than polar at physiological pH and its shorter side chain means the proteins would be pulled in closer apposition. Nevertheless, our results show Tyr211, or some other amino acid that is capable of hydrogen bonding, is necessary for a stable hydrogen bond network leading to efficient binding. Moreover, the cause of decreased infectivity seen in rodent populations with the Tyr211Asp mutation is not a simple change in binding affinity.
+
+Previous work has shown the hTfR1 mutation Asn348Lys is capable of producing decreased infectivity \citep{Rad2008,Rad20111}. Moreover, the molecular model based on x-ray diffraction data suggests destruction of a second hydrogen bonding network as the cause \citep{Abraham2010}. In our simulations no single mutation at Asn348 could be distinguished from the WT complex. Moreover, the mutation Asn348Ala resulted in an average maximum force that was virtually identical to WT hTfR1 (Table 4); thus, the putative hydrogen bonding network involving Asn348 is probably a crystallization artifact. Even when paired with the highly destructive Tyr211Ala mutation, Asn348Ala was refractory to changes in binding affinity. By contrast, when Tyr211Ala was paired with large (Trp) and positively charged (Lys) substitutions at position 348, the result was a larger than expected synergistic difference. That is, the double mutant Tyr211Ala/Asn348Trp caused a much larger decrease in binding than we expected from either mutation individually. Although Asn348Trp and Asn348Lys individually failed to be distinguishable from WT hTfR1, they both caused a lower mean max force and produced larger than expected synergistic effects. This data suggests site 348 is size and charge restricted; any mutation to a very large or positively charged side chain will likely produce decreased infectivity.
+
+Although our computational predictions largely agreed with the available literature, there was one significant deviation; the mutation vArg111Ala was indistinguishable from the WT complex. Other than binding, there are several reasons why a viral mutation may cause a phenotypic difference in infectivity. First, across disconnected experiments there could be a gross difference in the MACVGP concentration. Although western blots are a popular means of protein concentration normalization, when used in a quantitative manner they are notoriously difficult and unreliable. In addition, though western blots may show gross differences in protein concentration, viral binding may be very sensitive to small differences in fusion protein concentration.  Second, even if we trust protein expression normalization via western blot, it is not clear what fraction of protein is grossly or microscopically misfolded; an additional analytical step with circular dichroism or an analogous technique may further clarify large-scale folding differences. Third, since we start with a bound structure, any changes that may dramatically affect the rate of association (different folds, trafficking issues, etc.) would be underestimated by our method. Although the single viral mutant vArg111Ala did not produce any noticeable effects, we thought its binding orientation near Tyr211 and involvement in the critical hydrogen bond network may make it capable of producing a suppressor mutant. Although Tyr211Ala was the most disruptive single mutant we tested, vArg111Ala in the MACVGP was able to restore mean maximum force to WT levels (Table 1). As mutations at hTfR1 site 211 are known to reduce infectivity, vArg111 in MACVGP will probably serve a supressor site for compensatory MACV mutations. Moreover, this site may be critically important for surveillance in the rodent population.
+
+As with any structural approach, we are constrained to start our computational model system from a static structure. One unfortunate reality in structural biology is poor resolution/discrimination at particularly long and flexible amino acid side chains. In addition, the number of acceptable side chain rotamers increases in large amino acids; as a consequence there could be many untested starting conformations. Although we believe we have minimized unsampled conformations here, such an issue could be overcome with a sufficiently large number of SMD starting models. Of course, increasing sampling in this case comes at significant computational cost. There are a few additional challenges for investigating host-virus interaction via molecular dynamics simulation. As with any atomistic simulation, there is going to be a fairly large noise to signal ratio. To reduce noise, one could further customize each simulation. Furthermore, larger amounts of computational resources will have a direct and powerful impact on the strength of any atomistic study \citep{Shaw2012}; such resources could come in the form of increased compute time, improved code, or customized hardware for floating point operations \citep{Shaw2011}. With improved resources, we could investigate thousands of individual permutations in the MACVGP/hTfR1 binding interface. Going forward, all-atom molecular dynamics simulations can become an increasingly viable approach for protein interaction studies. 
+
+We have probed the biochemical effects of mutations at the host-virus interface between MACV and its human receptor. We applied an approach that imparts forces in an all-atom molecular dynamics (MD) simulation to drive the system through equilibrium. Our work has shown that with relatively modest computing resources it is possible to use MD simulations to investigate point mutations in the MACVGP/hTfR1 interface. In most cases, a double mutant was easily sufficient to resolve a difference in relative affinity; moreover, relative to the WT complex one point mutant was capable of producing a large decrease in binding affinity. We applied our technique to the WT complex and 10 mutations in the MACVGP/hTfR1 interface. We were able to rationalize the results of infectivity data with fundamental physical simulations. Our data has provided some direction for further biochemical intuition in this system. A polar residue is absolutely critical at position 211 in hTfR1; any mutation to a nonpolar residue will probably lead to a rapid viral compensatory response. Also, although rodent populations may produce further mutations at Asn348 in hTfR1, unless a mutation is positively charged or very large it is unlikely to result in a large disruption to viral fusion. We have also provided both a site and mutation that will probably be the next step in the evolutionary arms race between mammals and MACV. Finally, our analysis offers a new means to systemically investigate host-virus interactions through computational molecular dynamics.
+
+\section*{Acknowledgments}
+The authors acknowledge Bryan Sutton for opening access to the Hrothgar cluster.  The authors also acknowledge the High Performance Computing Center (HPCC) at Texas Tech University at Lubbock for providing HPC and database resources that have contributed to the research results reported within this paper. URL: http://www.hpcc.ttu.edu.
+\\
+\\
+\noindent This work was supported by the Defense Threat Reduction Agency (HDTRA1-12-C-0007) to A.D.E. and S.L.S., the National Science Foundation (MCB-0943383) to A.D.E., and the National Institutes of Health (R01-GM088344) to C.O.W.
+
+\bibliographystyle{MBE}
+\bibliography{bibliography}
+
+\clearpage
+\begin{figure}[p]
+\centerline{\includegraphics[width=6in]{figures/force_curve.pdf}}
+\caption{\label{fig:schematic}\title{Force versus distance curve of Y211A mutant and WT.} The average force curve for 50 replicates of the WT complex was black, and the average of 50 replicates of the Y211A mutant was red. Notice there is a very large difference in maximum force and area under the curve between the two complexes.}
+\end{figure}
+
+\clearpage
+\begin{figure}[p]
+\centerline{\includegraphics[width=6in]{figures/protein_comparison.pdf}}
+\caption{\label{fig:comparison}\title{Comparison of MACVGP/hTfR1 complex.} Figure A shows the full, de-glycosylated MACVGP/hTfR1 co-crystal structure. For figure B, we show the reduced structure for SMD. MACVGP is blue and hTfR1 is green.}
+\end{figure}
+
+\clearpage
+\begin{figure}[p]
+\centerline{\includegraphics[width=6in]{figures/sensitivity_histogram.pdf}}
+\caption{\label{fig:sensitivity}\title{Density plot of three different MACVGP/hTfR1 complexes.} The WT MACVGP-hTfR1 complex in the middle is flanked by the tighter binding mutant Y211D on the right and the weaker binding double mutant N348W/Y211A on the left. The large non-overlapping areas indicate a large and statistically significant difference in these three complexes with relatively minor differences.}
+\end{figure}
+
+\clearpage
+\begin {table}[H]
+\caption{Summary statistics for each mutation tested. $\mu_{Max Force}$ is the mean and $\sigma_{Max Force}$ is the standard deviation of maximum force over all simulations. $\mu_{AUC}$ is the mean and $\sigma_{AUC}$ is the standard deviation of area under the curve over all simulations.}
+\begin{center}
+  \resizebox{11cm}{!} {
+    \begin{tabular}{l r r r r}
+    \hline
+      Mutation &      $\mu_{Max Force}$ & $\sigma_{Max Force}$ & $\mu_{AUC}$ & $\sigma_{AUC}$ \\ \hline
+            WT &                 772.00 & 154.13               & 198794.7    & 66765.64 \\
+         N348A &                 799.33 & 154.36               & 202247.3    & 65175.78 \\
+         N348K &                 731.36 & 151.01               & 179087.5    & 55799.49 \\
+         N348W &                 732.13 & 131.21               & 192043.2    & 66916.36 \\
+        vR111A &                 754.39 & 103.25               & 185896.8    & 46408.74 \\
+         Y211A &                 684.03 & 126.69               & 153517.7    & 40889.12 \\ 
+         Y211D &                 875.44 & 116.46               & 234909.3    & 50494.11 \\ 
+         Y211T &                 861.17 & 158.48               & 231078.7    & 97569.29 \\
+   N348A/Y211A &                 762.96 & 144.81               & 173059.2    & 59898.10 \\
+   N348W/Y211A &                 617.21 & 163.33               & 147705.6    & 48548.61 \\
+  vR111A/Y211A &                 780.71 & 135.65               & 189919.1    & 48868.16 \\
+    \hline
+    \end{tabular}
+  }
+\end{center}
+\end{table}
+
+\clearpage
+\begin {table}[H]
+\caption{Pairwise difference $p-$values for interpolated maximum force. Bolded values are statistically significant at $p<0.05$.}
+\begin{center}
+  \resizebox{16cm}{!} {
+    \begin{tabular}{l l l l l l l l l l l}
+    \hline
+                & WT                      & N348A                   & N348W                   & N348K                   & Y211A                   & Y211D                     & Y211T                   & vR111A                  & N348A/Y211A             & N348W/Y211A \\ \hline
+    N348A       & 0.35                    &                         &                         &                         &                         &                           &                         &                         &                         &        \\
+    N348W       & 0.22                    & \textbf{0.012}          &                         &                         &                         &                           &                         &                         &                         &        \\
+    N348K       & 0.22                    & \textbf{0.012}          & 0.98                    &                         &                         &                           &                         &                         &                         &        \\
+    Y211A       & \textbf{0.0045}         & \textbf{1.6x10$^{-05}$} & 0.14                    & 0.15                    &                         &                           &                         &                         &                         &        \\
+    Y211D       & \textbf{0.00083}        & \textbf{0.0045}         & \textbf{3.9x10$^{-06}$} & \textbf{3.9x10$^{-06}$} & \textbf{5.7x10$^{-10}$} &                           &                         &                         &                         &        \\
+    Y211T       & \textbf{0.0042}         & \textbf{0.022}          & \textbf{3.0x10$^{-05}$} & \textbf{3.0x10$^{-05}$} & \textbf{1.0x10$^{-08}$} & 0.67                      &                         &                         &                         &        \\
+   vR111A       & 0.59                    & 0.11                    & 0.51                    & 0.51                    & \textbf{0.024}          & \textbf{8.9x10$^{-05}$}   & \textbf{0.00056}        &                         &                         &        \\
+    N348A/Y211A & 0.78                    & 0.20                    & 0.35                    & 0.35                    & \textbf{0.011}          & \textbf{0.00026}          & \textbf{0.0016}         & 0.78                    &                         &        \\
+    N348W/Y211A & \textbf{6.2x10$^{-07}$} & \textbf{9.3x10$^{-12}$} & \textbf{0.00021}        & \textbf{0.00026}        & \textbf{0.032}          & \textbf{$<$ 2x10$^{-16}$} & \textbf{2.4x10$^{-15}$} & \textbf{9.1x10$^{-06}$} & \textbf{2.8x10$^{-06}$} &        \\
+   vR111A/Y211A & 0.78                    & 0.52                    & 0.14                    & 0.14                    & \textbf{0.0019}         & \textbf{0.0024}           & \textbf{0.010}          & 0.44                    & 0.59                    & \textbf{1.6x10$^{-07}$}  \\
+    \hline
+    \end{tabular}
+  }
+\end{center}
+\end{table}
+
+\begin {table}[H]
+\caption{Pairwise difference $p-$values for interpolated area under the force curve. Bolded values are statistically significant at $p<0.05$.}
+\begin{center}
+  \resizebox{16cm}{!} {
+    \begin{tabular}{l l l l l l l l l l l}
+    \hline
+                & WT               & N348A                   & N348W           & N348K                   & Y211A                   & Y211D                   & Y211T                   & vR111A          & N348A/Y211A & N348W/Y211A \\ \hline
+    N348A       & 0.77             &                         &                 &                         &                         &                         &                         &                 &             &        \\
+    N348W       & 0.67             & 0.42                    &                 &                         &                         &                         &                         &                 &             &        \\
+    N348K       & 0.17             & 0.056                   & 0.38            &                         &                         &                         &                         &                 &             &        \\
+    Y211A       & \textbf{0.00094} & \textbf{3.5x10$^{-05}$} & \textbf{0.0045} & 0.063                   &                         &                         &                         &                 &             &        \\
+    Y211D       & \textbf{0.0072}  & \textbf{0.0051}         & \textbf{0.0016} & \textbf{4.6x10$^{-05}$} & \textbf{1.2x10$^{-09}$} &                         &                         &                 &             &        \\
+    Y211T       & \textbf{0.016}   & \textbf{0.014}          & \textbf{0.0041} & \textbf{0.00016}        & \textbf{6.1x10$^{-09}$} & 0.77                    &                         &                 &             &        \\
+   vR111A       & 0.38             & 0.18                    & 0.68            & 0.67                    & \textbf{0.016}          & \textbf{0.00032}        & \textbf{0.00094}        &                 &             &        \\
+    N348A/Y211A & 0.061            & \textbf{0.013}          & 0.18            & 0.68                    & 0.17                    & \textbf{5.2x10$^{-06}$} & \textbf{2.1$^{-05}$}    & 0.38            &             &        \\
+    N348W/Y211A & \textbf{0.00017} & \textbf{3.9x10$^{-06}$} & \textbf{0.0011} & \textbf{0.021}          & 0.68                    & \textbf{1.6x10$^{-10}$} & \textbf{6.3x10$^{-10}$} & \textbf{0.0047} & 0.063       &        \\
+   vR111A/Y211A & 0.56             & 0.34                    & 0.86            & 0.47                    & \textbf{0.0072}         & \textbf{0.0010}         & \textbf{0.0025}         & 0.77            & 0.24        & \textbf{0.0019}  \\
+    \hline
+    \end{tabular}
+  }
+\end{center}
+\end{table}
+
+\clearpage
+\begin {table}[H]
+\caption{Pairwise differences in interpolated maximum force. Bolded values are statistically significant at $p<0.05$. $\Delta$ Max Force is the mean max force for the first mutant listed in a row minus that of the second mutant listed.}
+\begin{center}
+  \resizebox{14cm}{!} {
+    \begin{tabular}{l r}
+    \hline
+    Mutant Pair                &  $\Delta$ Max Force \\ \hline
+    N348A-WT                   &               27.33 \\
+    N348W-WT                   &              -39.87 \\
+    N348K-WT                   &              -40.64 \\
+    \textbf{Y211A-WT}          &      \textbf{-87.97} \\
+    \textbf{Y211D-WT}          &      \textbf{103.44} \\
+    \textbf{Y211T-WT}          &       \textbf{89.17} \\
+    vR111A-WT                  &              -17.61 \\
+    N348A/Y211A-WT             &               -9.04 \\
+    \textbf{N348W/Y211A-WT}    &     \textbf{-154.79} \\
+    vR111A/Y211A-WT            &                8.71 \\
+    \textbf{N348W-N348A}       &      \textbf{-67.20} \\
+    \textbf{N348K-N348A}       &      \textbf{-67.97} \\
+    \textbf{Y211A-N348A}       &     \textbf{-115.30} \\
+    \textbf{Y211D-N348A}       &       \textbf{76.12} \\
+    \textbf{Y211T-N348A}       &       \textbf{61.85} \\
+    vR111A-N348A               &              -44.94 \\
+    N348A/Y211A-N348A          &              -36.37 \\
+    \textbf{N348W/Y211A-N348A} &     \textbf{-182.12} \\
+    vR111A/Y211A-N348A         &              -18.62 \\
+    N348K-N348W                &               -0.77 \\
+    Y211A-N348W                &              -48.10 \\
+    \textbf{Y211D-N348W}       &      \textbf{143.31} \\
+    \textbf{Y211T-N348W}       &      \textbf{129.04} \\
+    vR111A-N348W               &               22.26 \\
+    N348A/Y211A-N348W          &               30.83 \\
+    \textbf{N348W/Y211A-N348W} &     \textbf{-114.92} \\
+    vR111A/Y211A-N348W         &               48.58 \\
+    Y211A-N348K                &              -47.33 \\
+    
+    \hline
+    \end{tabular}
+    
+    \begin{tabular}{l r}
+    \hline
+    Mutant Pair                       &  $\Delta$ Max Force \\ \hline
+    \textbf{Y211D-N348K}              &      \textbf{144.08} \\
+    \textbf{Y211T-N348K}              &      \textbf{129.81} \\
+    vR111A-N348K                      &               23.03 \\
+    N348A/Y211A-N348K                 &               31.60 \\
+    \textbf{N348W/Y211A-N348K}        &     \textbf{-114.15} \\
+    vR111A/Y211A-N348K                &               49.35 \\
+    \textbf{Y211D-Y211A}              &      \textbf{191.42} \\
+    \textbf{Y211T-Y211A}              &      \textbf{177.15} \\
+    \textbf{vR111A-Y211A}             &       \textbf{70.36} \\
+    N348A/Y211A-Y211A                 &               78.93 \\
+    N348W/Y211A-Y211A                 &              -66.82 \\
+    \textbf{vR111A/Y211A-Y211A}       &       \textbf{96.68} \\
+    Y211T-Y211D                       &              -14.27 \\
+    \textbf{vR111A-Y211D}             &     \textbf{-121.05} \\
+    \textbf{N348A/Y211A-Y211D}        &     \textbf{-112.48} \\
+    \textbf{N348W/Y211A-Y211D}        &     \textbf{-258.23} \\
+    \textbf{vR111A/Y211A-Y211D}       &      \textbf{-94.74} \\
+    \textbf{vR111A-Y211T}             &     \textbf{-106.78} \\
+    \textbf{N348A/Y211A-Y211T}        &      \textbf{-98.21} \\
+    \textbf{N348W/Y211A-Y211T}        &     \textbf{-243.96} \\
+    \textbf{vR111A/Y211A-Y211T}       &      \textbf{-80.46} \\
+    N348A/Y211A-vR111A                &                8.57 \\
+    \textbf{N348W/Y211A-vR111A}       &     \textbf{-137.18} \\
+    vR111A/Y211A-R111A                &               26.31 \\
+    \textbf{N348W/Y211A-N348A/Y211A}  &     \textbf{-145.75} \\
+    vR111A/Y211A-N348A/Y211A          &               17.75 \\
+    \textbf{vR111A/Y211A-N348W/Y211A} &      \textbf{163.50} \\ 
+                                      &          \\
+    \hline
+    \end{tabular}
+  }
+\end{center}
+\end{table}
+
+\end{document}

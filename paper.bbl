@@ -1,0 +1,222 @@
+\begin{thebibliography}{34}
+\providecommand{\natexlab}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem[{Abraham et~al.(2010)Abraham, Corbett, Farzan, Choe, and
+  Harrison}]{Abraham2010}
+Abraham J, Corbett K, Farzan M, Choe H, Harrison S. 2010.
+\newblock Structural basis for receptor recognition by new world hemorrhagic
+  fever arenaviruses.
+\newblock Nat. Struct. Mol. Bio. 17:438--444.
+
+\bibitem[{Bajaj et~al.(2011)Bajaj, Chowdhury, and Siddahanavalli}]{Bajaj2011}
+Bajaj C, Chowdhury R, Siddahanavalli V. 2011.
+\newblock {$F^2$Dock: Fast} fourier protein-protein docking.
+\newblock IEEE Transactions on Computational Biology and Bioinformatics
+  8:45--58.
+
+\bibitem[{Bakan et~al.(2011)Bakan, Meireles, and Bahar}]{Bakan2011}
+Bakan A, Meireles L, Bahar I. 2011.
+\newblock {ProDy: P}rotein dynamics inferred from theory and experiments.
+\newblock Bioinformatics 27:1575--1577.
+
+\bibitem[{Brooks et~al.(1983)Brooks, Bruccoleri, Olafson, States, Swaminathan,
+  and Karplus}]{Brooks1983}
+Brooks B, Bruccoleri R, Olafson B, States D, Swaminathan S, Karplus M. 1983.
+\newblock {CHARMM: A} program for macromolecular energy, minimization, and
+  dynamics calculations.
+\newblock J. Comput. Chem. 4:187--217.
+
+\bibitem[{Buch et~al.(2011)Buch, Sadiq, and Fabritiis}]{Buch2011}
+Buch I, Sadiq S, Fabritiis G~D. 2011.
+\newblock Optimized potential of mean force calculations for standard binding
+  free energies.
+\newblock J. Chem. Theory Comput. 7:1765--1772.
+
+\bibitem[{Charrel and de~Lamballerie(2003)}]{Charrel2003}
+Charrel R~N, de~Lamballerie X. 2003.
+\newblock Arenaviruses other than {Lassa} virus.
+\newblock Antiviral Res. 57:89--100.
+
+\bibitem[{Choe et~al.(2011)Choe, Jemielity, Abraham, Radoshitsky, and
+  Farzan}]{Rad20111}
+Choe H, Jemielity S, Abraham J, Radoshitsky S, Farzan M. 2011.
+\newblock Transferrin receptor 1 in the zoonosis and pathogenesis of new world
+  hemorrhagic fever arenaviruses.
+\newblock Current Opinion in Microbiology 12:467--482.
+
+\bibitem[{Cuendet and Michielin(2008)}]{Cuendet2008}
+Cuendet M, Michielin O. 2008.
+\newblock Protein-protein interaction investigated by steered molecular
+  dynamics: {The TCR-PMHC} complex.
+\newblock Biophysical J. 95:3575--3590.
+
+\bibitem[{Cuendet and Zoete(2011)}]{Cuendet2011}
+Cuendet M, Zoete V. 2011.
+\newblock How {T-cell} receptors interact with peptide-{MHCs: A} multiple
+  steered molecular dynamics study.
+\newblock Proteins 79:3007--3024.
+
+\bibitem[{Dixit and Chipot(2001)}]{Dixit2001}
+Dixit S, Chipot C. 2001.
+\newblock Can absolute free energies of association be estimated from molecular
+  mechanical simulations? {The} biotin-streptavidin system revisited.
+\newblock J. Phys. Chem. A 105:9795--9799.
+
+\bibitem[{Gilson et~al.(1997)Gilson, Given, Bush, and McCammon}]{Gilson1997}
+Gilson M~K, Given J~A, Bush B~L, McCammon J~A. 1997.
+\newblock The statistical-thermodynamic basis for computation of binding
+  affinities: {A} critical review.
+\newblock Biophys. J 72:11047--1069.
+
+\bibitem[{Giorgino et~al.(2012)Giorgino, Buch, and Fabritiis}]{Giorgino2012}
+Giorgino T, Buch I, Fabritiis G~D. 2012.
+\newblock Visualizing the induced binding of {SH2}-phosphopeptide.
+\newblock J. Chem. Theory Comput. 8:1171--1175.
+
+\bibitem[{Gront et~al.(2011)Gront, Kulp, Vernon, Strauss, and
+  Baker}]{Grant2011}
+Gront D, Kulp D~W, Vernon R~M, Strauss C~E~M, Baker D. 2011.
+\newblock Generalized fragment picking in {Rosetta: Design}, protocols and
+  applications.
+\newblock PLoS ONE 6.
+
+\bibitem[{Gumbart et~al.(2012)Gumbart, Roux, and Chipot}]{Gumbart2012}
+Gumbart J, Roux B, Chipot C. 2012.
+\newblock Standard binding free energies from computer simulations: {What} is
+  the best strategy?
+\newblock J. Chem. Theory Comput. .
+
+\bibitem[{Humphrey et~al.(1996)Humphrey, Dalke, and Schulten}]{Humphrey1996}
+Humphrey W, Dalke A, Schulten K. 1996.
+\newblock {VMD - Visual Molecular Dynamics}.
+\newblock J. Molec. Graphics 14:33--38.
+
+\bibitem[{Hwang et~al.(2010)Hwang, Vreven, Janin, and Weng}]{Hwang2010}
+Hwang H, Vreven T, Janin J, Weng Z. 2010.
+\newblock Protein-protein docking benchmark version 4.0.
+\newblock Proteins 78:3111--3114.
+
+\bibitem[{Isralewitz et~al.(2001{\natexlab{a}})Isralewitz, Baudrya,
+  Gullingsruda, Kosztinav, and Schulten}]{Is2001B}
+Isralewitz B, Baudrya J, Gullingsruda J, Kosztinav D, Schulten K.
+  2001{\natexlab{a}}.
+\newblock Steered molecular dynamics investigations of protein function.
+\newblock J. Molec. Graphics 19:13--25.
+
+\bibitem[{Isralewitz et~al.(2001{\natexlab{b}})Isralewitz, Gao, and
+  Schulten}]{Is2001A}
+Isralewitz B, Gao M, Schulten K. 2001{\natexlab{b}}.
+\newblock Steered molecular dynamics and mechanical functions of proteins.
+\newblock Current Opinion in Structural Biology 25:225--230.
+
+\bibitem[{Jensen et~al.(2012)Jensen, Jogini, Borhani, Leffler, Dror, and
+  Shaw}]{Shaw2012}
+Jensen M, Jogini V, Borhani D, Leffler A, Dror R, Shaw D. 2012.
+\newblock Mechanism of voltage gating in potassium channels.
+\newblock Science 336:229--233.
+
+\bibitem[{Kortemme et~al.(2004)Kortemme, Kim, and Baker}]{Kortemme2004}
+Kortemme T, Kim D~E, Baker D. 2004.
+\newblock Computational alanine scanning of protein-protein interfaces.
+\newblock Sci. STKE 2004:12.
+
+\bibitem[{Lu and Schulten(1999)}]{Lu1999}
+Lu H, Schulten K. 1999.
+\newblock Steered molecular dynamics simulations of force-induced protein
+  domain unfolding.
+\newblock Protein Struct. Funct. Genet. 35:453--463.
+
+\bibitem[{Lu et~al.(2004)Lu, Kofke, and Woolf}]{Lu2004}
+Lu N, Kofke D~A, Woolf T~B. 2004.
+\newblock Improving the efficiency and reliability of free energy perturbation
+  calculations using overlap sampling methods.
+\newblock J. Comput. Chem. 25:28--39.
+
+\bibitem[{Michaud-Agrawal et~al.(2011)Michaud-Agrawal, Denning, Woolf, and
+  Beckstein}]{Agrawal2011}
+Michaud-Agrawal N, Denning E, Woolf T, Beckstein O. 2011.
+\newblock {MDAnalysis: A} toolkit for the analysis of molecular dynamics
+  simulations.
+\newblock J. Comput. Chem. 32:2319--2327.
+
+\bibitem[{Park et~al.(2003)Park, Khalili-Araghi, Tajkhorshid, and
+  Schulten}]{Park2003}
+Park S, Khalili-Araghi F, Tajkhorshid E, Schulten K. 2003.
+\newblock Free energy calculation from steered molecular dynamics simulations
+  using {Jarzynski's} equality.
+\newblock J. Chem. Phys. 119:3559--3567.
+
+\bibitem[{Park and Schulten(2004)}]{Park2004}
+Park S, Schulten K. 2004.
+\newblock Calculating potentials of mean force from steered molecular dynamics
+  simulations.
+\newblock J. Chem. Phys. 120:5946--5961.
+
+\bibitem[{Phillips et~al.(2005)Phillips, Braun, Wang, Gumbart, Tajkhorshid,
+  Villa, Chipot, Skeel, Kale, and Schulten}]{Phillips2005}
+Phillips J, Braun R, Wang W, Gumbart J, Tajkhorshid E, Villa E, Chipot C, Skeel
+  R, Kale L, Schulten K. 2005.
+\newblock Scalable molecular dynamics with {NAMD}.
+\newblock J. Comput. Chem. 26:1781--1802.
+
+\bibitem[{Radoshitsky et~al.(2008)Radoshitsky, Kuhn, Spiropoulou, Albarino,
+  Nguyen, Salazar-Bravo, Dorfman, Lee, Wang, Ross, Choe, and Farzan}]{Rad2008}
+Radoshitsky S, Kuhn J, Spiropoulou C, Albarino C, Nguyen D, Salazar-Bravo J,
+  Dorfman T, Lee A, Wang E, Ross S, Choe H, Farzan M. 2008.
+\newblock Receptor determinants of zoonotic transmission of new world
+  hemorrhagic fever arenaviruses.
+\newblock Proc. Natl. Acad. Sci. 19:2664--2669.
+
+\bibitem[{Radoshitsky et~al.(2011)Radoshitsky, Longobardi, Kuhn, Retterer,
+  Clester, K.~Kota, and Bavari}]{Rad20112}
+Radoshitsky S, Longobardi L, Kuhn J, Retterer C, Clester J, K~Kota J~C, Bavari
+  S. 2011.
+\newblock Machupo virus glycoprotein determinants for human transferrin
+  receptor 1 binding and cell entry.
+\newblock PLoS ONE 6.
+
+\bibitem[{Schr{\"o}dinger(2010)}]{PyMOL}
+Schr{\"o}dinger. 2010.
+\newblock The {PyMOL} molecular graphics system, version~1.3r1.
+\newblock Schr{\"o}dinger, LLC.
+
+\bibitem[{Shaw et~al.(2011)Shaw, Dror, Salmon, Grossman, Mackenzie, Bank,
+  Young, Deneroff, Batson, Bowers, Chow, Eastwood, Ierardi, Klepeis, Kuskin,
+  Larson, Lindorff-Larsen, Maragakis, Moraes, Piana, Shan, and
+  Towles}]{Shaw2011}
+Shaw D, Dror R, Salmon J, Grossman J, Mackenzie K, Bank J, Young C, Deneroff M,
+  Batson B, Bowers K, Chow E, Eastwood M, Ierardi D, Klepeis J, Kuskin J,
+  Larson R, Lindorff-Larsen K, Maragakis P, Moraes M, Piana S, Shan Y, Towles
+  B. 2011.
+\newblock Millisecond-scale molecular dynamics simulations on anton.
+\newblock Proceedings of the Conference on High Performance Computing,
+  Networking, Storage and Analysis SC09:39.
+
+\bibitem[{Sulkowska et~al.(2010)Sulkowska, Sulkowski, Szymczak, and
+  Cieplak}]{Sulkowska2010}
+Sulkowska J, Sulkowski P, Szymczak P, Cieplak M. 2010.
+\newblock Untying knots in proteins.
+\newblock J. Am. Chem. Soc. 132:13954--13956.
+
+\bibitem[{Vreven et~al.(2012)Vreven, Hwang, Pierce, and Weng}]{Vreven2012}
+Vreven T, Hwang H, Pierce B, Weng Z. 2012.
+\newblock Prediction of protein-protein binding free energies.
+\newblock Protein Science 21:396--404.
+
+\bibitem[{Vreven et~al.(2011)Vreven, Hwang, and Weng}]{Vreven2011}
+Vreven T, Hwang H, Weng Z. 2011.
+\newblock Integrating atom-based and residue-based scoring functions for
+  protein-protein docking.
+\newblock Protein Science 20:1576--1586.
+
+\bibitem[{Wickham(2009)}]{ggplot}
+Wickham H. 2009.
+\newblock ggplot2: {Elegant} graphics for data analysis.
+\newblock Springer New York.
+\newblock ISBN 978-0-387-98140-6.
+
+\end{thebibliography}
