@@ -213,10 +213,10 @@ df <- data.frame(id=c(rep('awt', length(max.wt[, 1])), rep('eya', length(max.ya[
 #                                'Y211D', 'Y211T', 'Y211A', 'N348W/Y211A'))
 # smd.boxplot(bp.df)
 # 
-fit <- aov(y1/mean(y1) + y2/mean(y2) ~ id, data = df)
+fit <- aov(y1 + y2 ~ id, data = df)
 print(TukeyHSD(fit))
 
 
-print(pairwise.t.test(df$y1/mean(df$y1) + df$y2/mean(df$y2), df$id, p.adjust.method="fdr"))
+#print(pairwise.t.test(scale(df$y1) + scale(df$y2), df$id, p.adjust.method="fdr"))
 
 
