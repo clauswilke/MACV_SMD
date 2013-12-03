@@ -1,4 +1,6 @@
-setwd('~/Google Drive/Documents/Research/SMD_manuscript/MACV_SMD/smd_pro/')
+rm(list = ls())
+
+setwd('~/Google Drive/Documents/Biochem/Research/SMD_manuscript/MACV_SMD/smd_pro/')
 
 diff.plot <- function(diff.df) {
   require(ggplot2)
@@ -31,7 +33,7 @@ diff.plot <- function(diff.df) {
     theme(axis.ticks.margin = unit(0.15, "cm")) +
     theme(legend.position = "none")
   
-  ggsave(g, file='~/Google Drive/Documents/Research/SMD_manuscript/MACV_SMD/figures/test_sensitivity.pdf', width=7, height=5)
+  ggsave(g, file='../figures/test_sensitivity.pdf', width=7, height=5)
 }
 
 
@@ -50,14 +52,14 @@ smd.boxplot <- function(boxplot.df) {
                             panel.border=element_blank(),
                             axis.line=element_line())
   
-  g <- ggplot(boxplot.df, aes(factor(id), y2)) + geom_boxplot()
+  g <- ggplot(boxplot.df, aes(factor(id), y1)) + geom_boxplot()
   g <- g + theme(strip.background=element_blank())
-  g <- g + ylab('Max Force')
+  g <- g + ylab('Distribution of Max Force (pN)')
   g <- g + xlab('Mutant')
   g <- g + theme(panel.border=element_blank(), axis.line=element_line())
-  g <- g + theme(axis.title.x = element_text(size=the_pointsize, vjust=0))
+  g <- g + theme(axis.title.x = element_text(size=18, vjust=0))
   g <- g + theme(axis.text.x = element_text(angle=45, vjust = 1.05, hjust = 1, size=12))
-  g <- g + theme(axis.title.y = element_text(angle=90, size=the_pointsize, vjust=.3))
+  g <- g + theme(axis.title.y = element_text(angle=90, size=18, vjust=.3))
   g <- g + theme(axis.text.y = element_text(size=12))
   g <- g + theme(axis.line = element_line(colour = 'black', size = 1))
   g <- g + theme(axis.ticks = element_line(colour = 'black', size = 1))
@@ -69,13 +71,11 @@ smd.boxplot <- function(boxplot.df) {
   g <- g + geom_text(aes(10, 1300, label="*"), colour='black', size=8)
   g <- g + geom_text(aes(11, 1300, label="*"), colour='black', size=8)
   
-  ggsave(g, file='~/Google Drive/Documents/Research/SMD_manuscript/MACV_SMD/figures/mutant_comparison_boxplot.pdf', width=7, height=5)
+  ggsave(g, file='../figures/mutant_comparison_boxplot.pdf', width=7, height=5)
 }
 
-rm(list = ls())
-
 require(plyr)
-require(pwr)
+#require(pwr)
 
 import.data <- function(complex) {
   for(i in 0:49) {
@@ -175,46 +175,35 @@ split.force.ra <- data.frame(split(ra$y, ra$run))
 split.force.na.ya <- data.frame(split(na.ya$y, na.ya$run))
 split.force.nw.ya <- data.frame(split(nw.ya$y, nw.ya$run))
 split.force.ra.ya <- data.frame(split(ra.ya$y, ra.ya$run))
- 
-df <- data.frame(id=c(rep('awt', length(max.wt[, 1])), rep('eya', length(max.ya[, 1])), 
-                      rep('hra', length(max.ra[, 1])), rep('kra_ya', length(max.ra.ya[, 1])), 
-                      rep('bna', length(max.na[, 1])), rep('ina_ya', length(max.na.ya[, 1])),
-                      rep('cnw', length(max.nw[, 1])), rep('jnw_ya', length(max.nw.ya[, 1])),
-                      rep('fyd', length(max.yd[, 1])), rep('dnk', length(max.nk[, 1])),
-                      rep('gyt', length(max.yt[, 1])) ), 
-                 y1=c(max.wt$x, max.ya$x, 
-                      max.ra$x, max.ra.ya$x,
-                      max.na$x, max.na.ya$x,
-                      max.nw$x, max.nw.ya$x,
-                      max.yd$x, max.nk$x,
-                      max.yt$x),
-                 y2=c(sum.wt$x, sum.ya$x, 
-                      sum.ra$x, sum.ra.ya$x,
-                      sum.na$x, sum.na.ya$x,
-                      sum.nw$x, sum.nw.ya$x,
-                      sum.yd$x, sum.nk$x,
-                      sum.yt$x))
-# 
-# bp.df <- data.frame(id=c(rep('WT', length(files_wt)), rep('N348A', length(files_ya)), 
-#                       rep('N348K', length(files_ra)), rep('N348W', length(files_ra_ya)), 
-#                       rep('R111A', length(files_na)), rep('Y211A', length(files_na_ya)),
-#                       rep('Y211D', length(files_nw)), rep('Y211T', length(files_nw_ya)),
-#                       rep('N348A/Y211A', length(files_yd)), rep('N348W/Y211A', length(files_nk)),
-#                       rep('vR111A/Y211A', length(files_yt)) ),
-#                  y2=c(interpolated_max_wt, interpolated_max_na, 
-#                       interpolated_max_nk, interpolated_max_nw, 
-#                       interpolated_max_ra, interpolated_max_ya,
-#                       interpolated_max_yd, interpolated_max_yt,
-#                       interpolated_max_na_ya, interpolated_max_nw_ya,
-#                       interpolated_max_ra_ya))
-# 
-# bp.df$id <- factor(bp.df$id, c('WT', 'N348A', 'N348K', 'N348W', 
-#                                'R111A', 'N348A/Y211A', 'vR111A/Y211A', 
-#                                'Y211D', 'Y211T', 'Y211A', 'N348W/Y211A'))
-# smd.boxplot(bp.df)
-# 
-fit <- aov(y1 + y2 ~ id, data = df)
-print(TukeyHSD(fit))
+
+df <- data.frame(id=c(rep('WT', length(max.wt[, 1])), rep('N348A', length(max.na[, 1])), 
+                      rep('N348K', length(max.nk[, 1])), rep('N348W', length(max.nw[, 1])), 
+                      rep('R111A', length(max.ra[, 1])), rep('N348A/Y211A', length(max.na.ya[, 1])),
+                      rep('vR111A/Y211A', length(max.ra.ya[, 1])), rep('Y211D', length(max.yd[, 1])),
+                      rep('Y211T', length(max.yt[, 1])), rep('Y211A', length(max.ya[, 1])),
+                      rep('N348W/Y211A', length(max.nw.ya[, 1])) ), 
+                 y1=c(max.wt$x, max.na$x, 
+                      max.nk$x, max.nw$x,
+                      max.ra$x, max.na.ya$x,
+                      max.ra.ya$x, max.yd$x,
+                      max.yt$x, max.ya$x,
+                      max.nw.ya$x),
+                 y2=c(sum.wt$x, sum.na$x, 
+                      sum.nk$x, sum.nw$x,
+                      sum.ra$x, sum.na.ya$x,
+                      sum.ra.ya$x, sum.yd$x,
+                      sum.yt$x, sum.ya$x,
+                      sum.nw.ya$x))
+
+df$id <- factor(df$id, c('WT', 'N348A', 'N348K', 'N348W', 
+                         'R111A', 'N348A/Y211A', 'vR111A/Y211A', 
+                         'Y211D', 'Y211T', 'Y211A', 'N348W/Y211A'))
+
+smd.boxplot(df)
+
+
+#fit <- aov(y1 + y2 ~ id, data = df)
+#print(TukeyHSD(fit))
 
 
 #print(pairwise.t.test(scale(df$y1) + scale(df$y2), df$id, p.adjust.method="fdr"))

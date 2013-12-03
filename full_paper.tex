@@ -49,6 +49,9 @@ Manuscript type: research article
 
 \linenumbers
 \newpage
+\begin{abstract}
+Existing computational methods to predict protein--protein interaction affinity often perform poorly in important test cases. In particular, the effects of multiple mutations, non-alanine substitutions, and flexible loops are difficult to predict with available tools and protocols. We present here a new method to interrogate affinity differences resulting from mutations in a host-virus protein--protein interface. Our method is based on extensive non-equilibrium all-atom simulations: We computationally pull the machupo virus (MACV) spike glycoprotein (GP1) away from the human transferrin receptor (hTfR1) and estimate affinity using the maximum applied force during a pulling simulation and the area under the force-versus-distance curve. We find that these quantities can provide novel biophysical insight into the GP1/hTfR1 interaction. First, with no prior knowledge of the system we can differentiate among wild-type and mutant complexes. Second, although the static co-crystal structure shows two large hydrogen-bonding networks in the GP1/hTfR1 interface, our simulations indicate that one of them may not be important for tight binding. Third, one viral site known to be critical for infection may mark an important evolutionary suppressor site for infection-resistant hTfR1 mutants. Finally, our method provides an elegant framework to compare the effects of multiple mutations, individually and jointly, on protein--protein interactions.
+\end{abstract}
 
 \section{Introduction}
 
@@ -132,10 +135,16 @@ We would like to emphasize here that we cannot expect perfect agreement between 
 
 There are a few additional challenges for investigating host-virus interaction via molecular dynamics simulation. As with any atomistic simulation, there is going to be a fairly large noise to signal ratio. To reduce noise, one could further customize each simulation, e.g. by determining the optimal pulling speed. Furthermore, larger amounts of computational resources will have a direct and powerful impact on the strength of any atomistic study \citep{Shaw2012}. Such resources could come in the form of increased compute time, improved code, or customized hardware for floating point operations \citep{Shaw2011}. With improved resources, we could investigate thousands of individual permutations in the GP1/hTfR1 binding interface. In addition, with additional compute time it would be possible to incorporate equilibrium sampling approaches \citep{Buch2011} or use brute force equilibrium approaches \citep{Giorgino2012} to improve resolution. 
 
-For future studies, although our approach offers the simplicity of not requiring prior knowledge about a system of interest (other than a bound model), all atom, unrestrained SMD is likely not the best approach for most relative affinity calculations. To ensure one's results are independent of the dissociation path one selects would require computing the work of separation for all likely paths. Such an approach eventually requires using the Jarzynski inequality \citep{Jar1997} to establish a lower limit for binding energy and would quickly become computationally inefficient for evaluating a large number of mutations in most systems. By contrast, another all atom approach that makes calculations via short simulations of spatially restrained complexes has proven capable of generating relatively accurate binding affinities with less compute time than is required from our steering strategy \citep{Gumbart2013b}. 
+For future studies, although our approach offers the simplicity of not requiring prior knowledge about a system of interest (other than a bound model), all atom, unrestrained SMD is likely not the best approach for most relative affinity calculations. To ensure one's results are independent of the dissociation path one selects would require computing the work of separation for all likely paths. Such an approach eventually requires using the Jarzynski inequality \citep{Jar1997} to establish a lower limit for binding energy and would quickly become computationally inefficient for evaluating a large number of mutations in most systems. By contrast, another all atom approach that makes calculations via short simulations of spatially restrained complexes has proven capable of generating relatively accurate binding affinities with less compute time than is required from our steering strategy \citep{Gumbart2013b}.
+
+\subsection{Notes}
+
+The authors declare no competing financial interest.
 
 \section{Acknowledgements}
 This work was carried out using high-performance computing resources provided by the High Performance Computing Center (HPCC) at Texas Tech University at Lubbock \\ (http://www.hpcc.ttu.edu) and the Texas Advanced Computing Center (TACC) at The University of Texas at Austin (http://www.tacc.utexas.edu). The authors acknowledge Bryan Sutton for opening access to the Hrothgar cluster.
+
+This work was supported by the Defense Threat Reduction Agency (HDTRA1-12-C-0007) to A.D.E., S.L.S., and C.O.W., the National Science Foundation (MCB-0943383) and the Welch Foundation (F-1654) to A.D.E., the National Institutes of Health (R01-GM088344) to C.O.W., and the National Institutes of Health (R01-GM093086) to S.L.S.
 
 \bibliographystyle{MBE}
 \bibliography{paper}
