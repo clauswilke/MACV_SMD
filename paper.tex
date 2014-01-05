@@ -82,7 +82,7 @@ To start the simulation, the barostat was switched off and the system was minimi
 
 \subsection{Steered Molecular Dynamics}
 
-We used the final state from each equilibrated system to restart another MD simulation. Our steering protocol is fundamentally similar to \citet{Cuendet2008} with slightly different parameter choices. Perhaps the one significant difference lies in our choosing to not use a thermostat or barostat. However, this should not be a problem since we are not trying to calculate the binding free energy by any physically rigorous approach (the Jarzynski inequality being one example). Following equilibration, the final state of each simulation was used to generate a configuration file fixing the $\alpha$-carbon on residues 1, 58, 73-83, 96, 136, 137, 138, and 161 (again with linear numbering) in the hTfR1. These residues were selected as they are far from the binding interface and sufficiently distributed to prevent any orientational motion of the receptor relative to the viral spike protein. The $\alpha$-carbon of all residues (163-318 in linear numbering) in GP1 received an applied force during the simulation. The NAMD convention does not actually apply a force to all $\alpha$-carbon atoms, but rather uses the selection to compute an initial center of mass. Then, during the steering run, the single center of mass point is pulled with the parameters desribed below. We used the same force field parameters (exclude, cutoff, switching, etc.), the same integrator parameters (time step, rigidbonds on, all molecular being wrapped, etc.), and the same particle mesh ewald parameters as in equilibration. Periodic boundary conditions were incorporated as part of the system (as is the convention in NAMD restart) and PME was again used to approximate full system electrostatics. 
+We used the final state from each equilibrated system to restart another MD simulation. Our steering protocol is fundamentally similar to \citet{Cuendet2008} with slightly different parameter choices. Perhaps the one significant difference lies in our choosing to not use a thermostat or barostat. However, this should not be a problem since we are not trying to calculate the binding free energy by any physically rigorous approach (the Jarzynski inequality being one example). Following equilibration, the final state of each simulation was used to generate a configuration file fixing the $\alpha$-carbon on residues 1, 58, 73-83, 96, 136, 137, 138, and 161 (again with linear numbering) in the hTfR1. These residues were selected as they are far from the binding interface and sufficiently distributed to prevent any orientational motion of the receptor relative to the viral spike protein. The center of mass of the $\alpha$-carbons of all residues (163-318 in linear numbering) in GP1 received an applied force during the simulation. The NAMD convention does not actually apply a force to all $\alpha$-carbon atoms, but rather uses the selection to compute an initial center of mass. Then, during the steering run, the single center of mass point is pulled with the parameters desribed below. We used the same force field parameters (exclude, cutoff, switching, etc.), the same integrator parameters (time step, rigidbonds on, all molecular being wrapped, etc.), and the same particle mesh ewald parameters as in equilibration. Periodic boundary conditions were incorporated as part of the system (as is the convention in NAMD restart) and PME was again used to approximate full system electrostatics. 
 
 We ran test simulations at several force constants, and visually inspected the results. A force constant of 5~kcal/mol/\AA$^2$ was chosen due to its relatively low signal-to-noise ratio. This is slightly lower than the more common 7~kcal/mol/\AA$^2$ found in several recent studies; however, it seems that value is so commonly selected primarily because it is the force constant found in the NAMD, SMD tutorial available through the developers. Moreover, the force constant could very likely be set to a range of nearby values with little loss in predictive power. In SMD experiments the pulling velocity should be as low as possible for the available computational time \citet{Cuendet2008,Cuendet2011}. Thus we choose a velocity of 0.000001~\AA/fs = 1~\AA/ns, and direction down the positive $z$-axis. This number could be set to pull faster if the computing time must be reduced, but slower than necessary pulling speeds are not typically considered problematic. 
 
@@ -117,11 +117,11 @@ Despite, the fact that viral binding occurs at the site of a flexible loop in th
 
 \subsection{Molecular dynamics simulations}
 
-We proceeded to analyze this system using two molecular dynamics techniques. First, in SMD by using a known spring constant, and pulling with a constant velocity, we could calculate the applied force during protein--protein dissociation \citep{Cuendet2008,Cuendet2011}. A typical averaged force curve comparison can be seen in Figure~\ref{fig:force_curve}. As seen in Figure~\ref{fig:force_curve}, this distance was relatively consistent among mutants. The supplementary movie visually illustrates the separation distance between peptide domains. The quantities maximum applied force and AUC were derived from the force versus distances curves. Their summary statistics are reported in Table~\ref{tab:summary_statistics}. As we are more interested in the phenotypic impact of interface mutations we avoided many of the more physically rigorous, but technically complicated calculations that are possible with SMD \citep{Is2001A,Is2001B}. Indeed, our set up would not have allowed rigorous calculations as we omitted several tools such as a barostat and a thermostat that would be required for an NPT ensemble.
+We proceeded to analyze this system using two molecular dynamics techniques. First, in SMD by using a known force constant, and pulling with a constant velocity, we could calculate the applied force during protein--protein dissociation \citep{Cuendet2008,Cuendet2011}. A typical averaged force curve comparison can be seen in Figure~\ref{fig:force_curve}. As seen in Figure~\ref{fig:force_curve}, this distance was relatively consistent among mutants. The supplementary movie visually illustrates the separation distance between peptide domains. The quantities maximum applied force and AUC were derived from the force versus distances curves. Their summary statistics are reported in Table~\ref{tab:summary_statistics}. As we are more interested in the phenotypic impact of interface mutations we avoided many of the more physically rigorous, but technically complicated calculations that are possible with SMD \citep{Is2001A,Is2001B}.
 
 Before systematically applying SMD to the GP1/hTfR1 interaction, we needed to ensure the method was sufficiently sensitive to distinguish between relatively minor point mutations. While SMD has been applied previously to measure the binding energy of high-affinity T-cell receptor interactions \citep{Cuendet2008,Cuendet2011}, to our knowledge the method has never been used previously to parse small differences in a complex energy landscape. For this initial sensitivity analysis, we tested alanine substitutions congruent with the traditional experimental and computational approach. 
 
-We proceeded to compare our SMD results to that of the standard dual topology FEP approach to calculate relative free energy differences. The correlation between the energetically rigorous FEP and our statistical approach is high. For all 11 complexes tested, the correlation between max force and FEP was r=0.767 at p=0.00576, and the correlation between AUC and FEP was r=0.72 at p=0.01 (figure). As a result of the strong correlation, we will generally refer to the SMD differences only.
+We proceeded to compare our SMD results to that of the standard dual topology FEP approach to calculate relative free energy differences. The correlation between the energetically rigorous FEP and our statistical approach is high. For all 11 complexes tested, the correlation between max force and FEP was r=-0.767 at p=0.005857 (Figure~\ref{fig:fep}), and the correlation between AUC and FEP was r=--0.729 at p=0.011. As a result of the strong correlation, we will generally refer to the SMD differences only.
 
 We found that relative to WT, one alanine mutation (Tyr211Ala) produced a very large and statistically significant difference in the maximum applied force and AUC (Figure~\ref{fig:force_curve}, Table~\ref{tab:MAF_pairwise}), while the other two did not (Table~\ref{tab:MAF_pairwise}). When considering additional mutants (also discussed below), we found that maximum applied force was generally sufficient to distinguish mutants (Tables~\ref{tab:MAF_pairwise} and~\ref{tab:MAF_p}), and AUC was able to add a few more statistically significant differences (Table~\ref{tab:AUC_p}). In general, however, maximum applied force seemed to be the more sensitive statistic than AUC.
 
@@ -151,7 +151,7 @@ For future studies, although our approach offers the simplicity of not requiring
 More importantly, with no \textit{a priori} knowledge of the appropriate number of equilibration samples, the during of equilibration, the appropriate number of pulling runs, or the best pulling speed means the computational expense in our SMD protocol may not be commensurate with the information provided. For example, another all atom approach that makes calculations via short simulations of spatially restrained complexes has proven capable of generating relatively accurate binding affinities with less compute time than is required from our steering strategy \citep{Gumbart2013,Gumbart2013b}. That being said, there is no reason to believe this SMD approach to mutagenic studies could not be optimized to reduce computational expense. Further analysis would be needed to understand the lower limits of resources required for accurate predictions.
 
 \section{Acknowledgements}
-This work was carried out using high-performance computing resources provided by the High Performance Computing Center (HPCC) at Texas Tech University at Lubbock \\ (http://www.hpcc.ttu.edu) and the Texas Advanced Computing Center (TACC) at The University of Texas at Austin (http://www.tacc.utexas.edu). The authors acknowledge Bryan Sutton for opening access to the Hrothgar cluster.
+This work was carried out using high-performance computing resources provided by the High Performance Computing Center (HPCC) at Texas Tech University at Lubbock \\ (http://www.hpcc.ttu.edu) and the Texas Advanced Computing Center (TACC) at The University of Texas at Austin (http://www.tacc.utexas.edu). The authors acknowledge Bryan Sutton for opening access to the Hrothgar cluster. The authors also acknowledge the reviewers Ilan Samish and Matteo Masetti for their helpful comments in preparing this manuscript.
 
 \bibliographystyle{MBE}
 \bibliography{paper}
@@ -188,6 +188,12 @@ This work was carried out using high-performance computing resources provided by
 
 \clearpage
 \begin{figure}[p]
+\centerline{\includegraphics[width=6in]{figures/fep_mutants.pdf}}
+\caption{\label{fig:fep}\title{Max force versus free energy perturbation} Scatter plot of maximum force in SMD versus the relative free energy difference calculated by FEP for all 10 mutants tested plus the WT complex. The WT complex for FEP was simply set to 0.0. The correlation between the two is r=-0.767 with p=0.005857.}
+\end{figure}
+
+\clearpage
+\begin{figure}[p]
 \centerline{\includegraphics[width=6in]{figures/mutant_comparison_boxplot.pdf}}
 \caption{\label{fig:mutant_comparison}\title{Distribution of interpolated maximum force for all bound complexes tested.} Stars above the boxplots indicate a statistically significant difference in mean maximum force relative to the WT complex.}
 \end{figure}
@@ -219,23 +225,23 @@ This work was carried out using high-performance computing resources provided by
 
 \clearpage
 \begin {table}[H]
-\caption{\label{tab:summary_statistics}Summary statistics for each mutation tested. $\mu_\text{MAF}$ is the mean and $\sigma_\text{MAF}$ is the standard deviation of maximum applied force over all simulations. $\mu_\text{AUC}$ is the mean and $\sigma_\text{AUC}$ is the standard deviation of AUC over all simulations.}
+\caption{\label{tab:summary_statistics}Summary statistics for each mutation tested. $\mu_\text{MAF}$ is the mean in piconewtons and $\sigma_\text{MAF}$ is the standard deviation of maximum applied force over all simulations. $\mu_\text{AUC}$ is the mean and $\sigma_\text{AUC}$ is the standard deviation of AUC over all simulations. $\Delta G$ is the free energy difference in kcal/mol calculated via FEP by the dual topology paradigm.}
 \begin{center}
-  \resizebox{11cm}{!} {
-    \begin{tabular}{l c c c c}
+  \resizebox{15cm}{!} {
+    \begin{tabular}{l c c c c c}
     \hline
-      Mutation &      $\mu_\text{MAF}$ & $\sigma_\text{MAF}$ & $\mu_\text{AUC}$ & $\sigma_\text{AUC}$ \\ \hline
-            WT &                772.00 &              154.13 &         198794.7 &            66765.64 \\
-         N348A &                799.33 &              154.36 &         202247.3 &            65175.78 \\
-         N348K &                731.36 &              151.01 &         179087.5 &            55799.49 \\
-         N348W &                732.13 &              131.21 &         192043.2 &            66916.36 \\
-         Y211A &                684.03 &              126.69 &         153517.7 &            40889.12 \\ 
-         Y211D &                875.44 &              116.46 &         234909.3 &            50494.11 \\ 
-         Y211T &                861.17 &              158.48 &         231078.7 &            97569.29 \\
-        vR111A &                754.39 &              103.25 &         185896.8 &            46408.74 \\
-   N348A/Y211A &                762.96 &              144.81 &         173059.2 &            59898.10 \\
-   N348W/Y211A &                617.21 &              163.33 &         147705.6 &            48548.61 \\
-  vR111A/Y211A &                780.71 &              135.65 &         189919.1 &            48868.16 \\
+      Mutation & $\mu_\text{MAF}$ (pN) & $\sigma_\text{MAF}$ & $\mu_\text{AUC}$ & $\sigma_\text{AUC}$ & $\Delta G$ (kcal/mol)\\ \hline
+            WT &                772.00 &              154.13 &         198794.7 &            66765.64 &  0.000\\
+         N348A &                799.33 &              154.36 &         202247.3 &            65175.78 & -2.149\\
+         N348K &                731.36 &              151.01 &         179087.5 &            55799.49 & +3.184\\
+         N348W &                732.13 &              131.21 &         192043.2 &            66916.36 & +3.033\\
+         Y211A &                684.03 &              126.69 &         153517.7 &            40889.12 & +2.526\\ 
+         Y211D &                875.44 &              116.46 &         234909.3 &            50494.11 & -2.760\\ 
+         Y211T &                861.17 &              158.48 &         231078.7 &            97569.29 & +0.876\\
+        vR111A &                754.39 &              103.25 &         185896.8 &            46408.74 & +0.467\\
+   N348A/Y211A &                762.96 &              144.81 &         173059.2 &            59898.10 & +5.203\\
+   N348W/Y211A &                617.21 &              163.33 &         147705.6 &            48548.61 & +8.207\\
+  vR111A/Y211A &                780.71 &              135.65 &         189919.1 &            48868.16 & -2.441\\
     \hline
     \end{tabular}
   }

@@ -3,28 +3,28 @@ Reviewer 1 (ilan samish)
 
 The title was misleading.  It has been changed to the following to reflect to scope of the manuscript.
 
-Analyzing Machupo virus-receptor binding by molecular dynamics simulation
+"Analyzing Machupo virus-receptor binding by molecular dynamics simulation"
 
 2. The authors imply that their methodology is new. Yet, steered MD is a common methods and was used also for mutaions e.g. pubmed I (PMID: 23836247 ). The relevant statement should be softened. 
 
-Thanks for pointing us to the referenced paper.  We were collecting data and finishing up writing this manuscript substantially before that paper was published so we missed it.  We have softened our language to:
+Thanks for pointing us to the referenced paper.  We were collecting data and finishing up writing this manuscript before that paper was published so we missed it.  We have softened our language of the entire paragraph to:
 
-  Here we propose applying an existing method to a new test case to probe mutational effects in protein--protein interactions directly based on first principles simulation, by pulling two proteins apart that are initially bound in a complex.
+"Here we propose applying an existing method to a new test case to probe mutational effects in protein--protein interactions based on first principles simulation. We impart a pulling force within an all-atom molecular dynamics simulation on one member of the complex while the other is held in place. Then, we measure the force required for dissociation \citep{Gumbart2012,Lu1999,Park2004,Is2001A,Is2001B}. As a proxy for relative binding affinity, we use the maximum applied force required for separation and the area under the force-versus-distance curve (AUC). Although such biasing techniques are common in protein-ligand binding problems, they are less commonly applied to protein--protein interactions, and almost never to mutational analysis in a protein--protein system. This is largely the result of free energy convergence difficulties and computational limitations \citep{Cuendet2008,Cuendet2011}; using maximum force or simple AUC can solve these problems. We also used the traditional dual topology FEP technique to compute relative free energy differences for comparison to our simplified force biased approach."
 
-In addition we removed a misleading sentence.
+In addition we removed this misleading sentence.
 
-  By extending the SMD technique to investigate a protein--protein interaction we have, in many ways, changed the scope of its application. 
+"By extending the SMD technique to investigate a protein--protein interaction we have, in many ways, changed the scope of its application."
 
 3. The spring constant was set to 5 kcal/mol/ ˚ A and the velocity set to 1 A/ns. This choice of parameters should be discussed in light of other SMD publications as are the other choices within the SMD protocol. In this discussion, differences should be highlighted and explained.
+
+We have added some language to that effect in the methods. In the field of force biasing simulations it seems both of these parameters are chosen on a more pragmatic than a theoretical basis. Even when one is calculating rigorous free energy differences (which we are not doing here), the force constant is chosen based on a limited set of test runs.  This is probably because there is no reason to believe free energy calculations should be sensitive to the choice of biasing parameters.  In several papers, Gumbart et. al. go to get lengths to show that the final calculations are not even sensitive to the free energy method chosen, not to mention the biasing parameters. (Gumbart J C, Roux B, Chipot C. 2013b. Efficient determination of protein-protein standard binding free energies from first principles. J. Chem. Theory Comput. 9:3780–3798.)
 
 4. in section 3.2 you write: "For SMD, at the centroid of 176
 several atoms a force was applied to a single point in GP1." Readers should be able to generally repeat the simulation and actually the choice of the atoms to be pulled may affect results. Thus, the list of pulled atoms should be attached as a supp material.
 
-We intended to upload the namd input parameters, but it was overlooked in the final submission.  In addition, we expanded the following paragraphs to include the requested information:
+We intended to upload the namd input parameters, but it was overlooked in the final submission.  In addition, we greatly expanded the steered molecular dynamics section in the methods to include the requested information. Perhaps it was less than clear, but the pulled atoms were included.  In NAMD one can simply specify the CA atoms by listing the residue number and requesting only CA's.  We have clarified it in the following way:
 
-We used the final state from each equilibrated system to restart another MD simulation. Our steering protocol is fundamentally similar to \citet{Cuendet2008} with slightly different parameter choices. Perhaps the one significant difference lies in our choosing to not use a thermostat or barostat. However, this should not be a problem since we are not trying to calculate the binding free energy via the physically rigorous Jarzynski inequality. Following equilibration, the final state of each simulation was used to generate a configuration file fixing the $\alpha$-carbon on residues 1, 58, 73-83, 96, 136, 137, 138, and 161 (again with linear numbering) in the hTfR1. These residues were selected as they are far from the binding interface and sufficiently distributed to prevent any orientational motion of the receptor relative to the viral spike protein. The $\alpha$-carbon of all residues (163-318 in linear numbering) in the GP1 received an applied force during the simulation. The NAMD convention does not actually apply a force to all $\alpha$-carbon atoms, but rather uses the selection to compute an initial center of mass. Then, during the steering run, the single center of mass point is pulled with the parameters desribed below. We used the same periodic boundary conditions found in the equilibration run. In addition, we used the same force field parameters (exclude, cutoff, switching, etc.), the same integrator parameters (time step, rigidbonds on, all molecular being wrapped, etc.), and the same particle mesh ewald parameters.
-
-In every way possible the subsequent steering simulation had the same parameters as the equilibration simulation. Thus, the steered molecular dynamics (SMD) \citep{Is2001A,Is2001B} simulation was a typical restart with slightly different settings. Periodic boundary conditions were incorporated as part of the system and PME was again used to approximate full system electrostatics. In addition, we ran test simulations at several spring constants, and visually inspected the results. A spring constant of 5~kcal/mol/\AA$^2$ was chosen due to its relatively low signal-to-noise ratio. This is slightly lower than the more common 7~kcal/mol/\AA$^2$ found in several recent studies; however, it seems that value is so commonly selected primarily because it is the spring constant found in the NAMD, SMD tutorial. Moreover, the spring constant could very likely be set to a range of nearby values with little loss in power. Then, in SMD experiments the pulling velocity should be as low as possible for the available computational time. Thus we choose a velocity of 0.000001~\AA/fs = 1~\AA/ns, and direction down the positive $z$-axis. This number could be set to pull faster if the computing time must be reduced. 
+"The center of mass of the $\alpha$-carbons of all residues (163-318 in linear numbering) in GP1 received an applied force during the simulation. The NAMD convention does not actually apply a force to all $\alpha$-carbon atoms, but rather uses the selection to compute an initial center of mass. Then, during the steering run, the single center of mass point is pulled with the parameters desribed below."
 
 Reviewer 2 (Matteo Masetti)
 
@@ -45,7 +45,15 @@ Are there major rearrangements or just local motions during the production runs 
 Very basic analysis such as computing the RMSD over time and RMSF per residue should be performed and reported.
 Moreover, showing the location of these mutations in Figure 1 would improve the comprehension of the manuscript.
 
-***Need to address with RMSF with the original simulations
+All of the mutations are within 5 Angstroms of the interface.  We have now stated that explicitly here:
+
+"In total, we tested 7 point mutants and 3 double mutants in addition to the WT complex (Table 1 and Figure 7). All of the mutations are within 5 A of the protein-protein interface."
+
+There are no major rearrangements during equilibration.
+
+We have included plots of the RMSF versus index and the RMSD over the equilibration trajectories. They show the flexible loop on the free transferrin receptor is quite immobile as part of a beta-sheet with the virus bound. In addition we added the following text:
+
+"Despite, the fact that viral binding occurs at the site of a flexible loop in the free hTfR structure, our data shows after binding the strand is extremely rigid. None of the sites in the interfacial strand have root mean squared fluctuation (RMSF) values in the top half of all sites in the complex during equilibration (Figure 2). This is unsurprising considering the high degree of burial that occurs as a result of viral binding. In addition, computing the root mean squared deviation (RMSD) of the entire structure over the trajectory shows that none of the mutations are so deleterious as the cause rapid unbinding. In fact, the RMSD over trajectory looks incredibly invariant across mutants (Figure 3)."
 
 4. I acknowledge the authors that probing the viability of the approach to point mutations before moving to more challenging cases is a good practice, and I also appreciate the fact that they do not overemphasize their results.
 However, if I properly understood, the only experimental validation of the protocol is provided by three point mutations which returned two statistically insignificant correct results (N348K, vR111A) and one statistically significant wrong result (Y211T).
@@ -55,22 +63,22 @@ I suggest the authors to enrich the paper in either one of the two following way
 OR
 2. to compare the steered MD results for the three alanine point mutations with more established free energy approaches (FEP or TI, see for example the recent paper by Luitz and Zacharias, Proteins 2013 81:461).
 
-We have performed FEP with all of the same mutations.  The analysis includes the following...
+We have performed dual topology FEP with all of the same mutations.  That data is now included in table 2 and the correlation between max force and dG is plotted in figure 6.  We have integrated FEP language throughout the paper.  In addition, we have included the following text:
+
+"We proceeded to compare our SMD results to that of the standard dual topology FEP approach to calculate relative free energy differences. The correlation between the energetically rigorous FEP and our statistical approach is high. For all 11 complexes tested, the correlation between max force and FEP was r=0.767 at p=0.00576 (Figure~\ref{fig:fep}), and the correlation between AUC and FEP was r=0.72 at p=0.01. As a result of the strong correlation, we will generally refer to the SMD differences only."
 
 5. In the Results, at page 7 (rows 140 to 143), the authors state that large structural rearrangements of an interfacial flexible loop are expected upon binding, and they claim that because of this traditional computational tools are of limited usefulness. While one might agree with this sentence, the authors seem to overlook the fact that such a rearrangement complicate any other simulative strategy as well. How does this loop behave during steered MD simulations?
 Does it unfolds or it stays in place?
 A more detailed structural analysis is required.
 
-We agree. In principle, such flexibility would complicate any simulative study, but probing such rearrangements would really be impossible for a technique like MM/PBSA or FEP.  At least with SMD (or a few related techniques) the computational overhead to achieve such rearrangements does not increase substantially as the number of mutations increases as in FEP.
-
-***Should we do this analysis?  We have more than 500 SMD runs to analyze.
+We agree. In principle, flexibility would complicate any simulative study, but probing such rearrangements would really be impossible for a technique like MM/PBSA or FEP.  At least with SMD (or a few related biasing techniques) the computational overhead to achieve such rearrangements does not increase substantially as the number of mutations increases as in FEP.
 
 6. In the Introduction, at page 1, (rows 14 to 17), the authors state that methods such as FEP and TI rely on a two state model, "with no intermediate steps". This is in a best case scenario a misleading sentence, since FEP and TI are computational frameworks that, in order to return meaningful results, in most of cases DO NEED intermediate steps. In fact, the sentence is also misleading since the authors refer to these methods as to "two state models" whereas they are generally known as "pathway methods" to be easily distinguished by "endpoint methods" such as MM-PBSA, LIE, ..., where only ensemble averages of certain endpoint properties are used without intermediate states!
 This source of confusion must be properly addressed.
 
 We weren't clear in the explanation. We meant to imply that large ending state transitions become computational intractable, and as a result, large changes can require a large number of intermediate (and expensive) calculations. The section now reads.
 
-However, the currently available methods such as free energy perturbation (FEP) and thermodynamic integration (TI) rely on a transitional model (where one state may be wild-type and the other may be a mutant) that phases from one three-dimensional model to another \citep{Gilson1997,Lu2004,Chodera2011,Gumbart2013}. The free energy calculations in FEP are carried out in the forward and reverse phasing directions. As the two ending states look ever more dissimilar the chances of the forward and reverse calculations converging on the same free energy changes falls rapidly. As a result, these techniques are largely limited to point mutant comparisons. Larger differences quickly become intractable as the number of intermediate steps required for convergence grows.
+"By contrast, first principles methods can forgo training, but currently available methods such as free energy perturbation (FEP) and thermodynamic integration (TI) rely on a transitional model (where one state may be wild-type and the other may be a mutant) to make rigorous free energy calculations  \citep{Gilson1997,Lu2004,Chodera2011,Gumbart2013}. While these may be considered two of the gold standard techniques for calculating affinity differences, there are a huge number theoretical and technical complexities that must all be properly managed to ensure a converged solution \citep{Gumbart2013b}. Such considerations quickly come to dominate the protocol, and the necessary book keeping introduces the possibility of human error \citep{Gumbart2013b}. Moreover, as the two ending states look ever more dissimilar the chances of convergence falls rapidly. To ensure convergence, these techniques are typically limited to small differences (such as point mutant comparisons) with a few, very impressive exceptions \citep{Wang2006,Gumbart2013,Gumbart2013b}. For most, larger differences quickly become intractable as the number of intermediate steps required to compute a converged solution grows or the complexity of adding restraining potentials and computing approximations expands \citep{Wang2006,Gumbart2013,Gumbart2013b}."
 
 7. In the Introduction, at page 1 (row 20), the authors refer to the use of steered MD in the prediction of relative binding affinity between wild type and mutant protein-protein complexes as a "new method".
 This is an overrated sentence for two reasons: 1. the authors show a procedure, a protocol (if it was properly detailed), they do not develop any new methods; 2. a similar approach has already been reported
@@ -81,13 +89,13 @@ Agreed. See point 2 for reviewer 1.
 
 8. Page 4, row 71. Is the system size really of about 28,000 atoms? Systems of about 30,000 atoms are relatively small, whereas by looking at Figure 1B I would have expected at least 50,000 atoms. Please double check.
 
-The system is indeed about 28,000 atoms.  We used a 5 Angstrom around the bound complex and left a 20 A buffer in the pulling direction.
+The system is indeed about 28,000 atoms (actually between 28,000 and 28,100 depending on which mutant).  We used a 5 Angstrom around the bound complex and left a 20 A buffer in the pulling direction.
 
 9. Page 4, rows 74, 75: "This was accomplished by setting beta=1." What do the authors mean? What does the beta parameter stand for?
 
 We meant the B-factor column in the pdb.  The sentence now reads.
 
-In addition to the modeled system, for equilibration we generated a configuration file that fixed the $\alpha$-carbon backbone. This was accomplished by setting the B-factor column to 1 for the fixed atoms and to zero for all other atoms.
+"In addition to the modeled system, for equilibration we generated a configuration file that fixed the $\alpha$-carbon backbone. This was accomplished by setting the B-factor column to 1 for the fixed atoms and to zero for all other atoms."
 
 10. Page 4, row 84. The authors state that the exact input file is reported in the supplement. I wasn't able to find any input file in the supplement, but I apologize beforehand with the authors in case the input file was actually provided.
 Please double check. Anyway, the authors should at least indicate in the main text very important simulation parameters such as the temperature control method employed and the cutoff radii for nonbonded interactions.
@@ -96,7 +104,7 @@ Apologies.  It was an oversight in the final submission.  They should now be inc
 
 11. Page 6, rows 131, 132. Please provide some more details regarding the "pairwise.t.test function" and the "FDR p-value correction".
 
-***Claus
+We tested for signifiant differences in maximum force or AUC by carrying out t tests for all pairwise combinations (each mutant compared to each other mutant), using the pairwise.t.test() function in R. We adjusted p values to correct for multiple testing using the False-Discovery-Rate (FDR) method (Y. Benjamini  and Y. Hochberg. 1995. Controlling the false discovery rate: a practical and powerful approach to multiple testing. Journal of the Royal Statistical Society, Series B 57:289-300).
 
 12. Page 8, row 171. Please avoid odd sentences such as "we generated a physically realistic simulation world", as this is what people usually do when performing Molecular Simulations, there is no need for such an emphasys in a scientific paper.
 
@@ -104,10 +112,8 @@ The sentence was removed.
 
 13. It seems to me that the authors have a menageable amount of data. Just showing a force profile (Fig. 2) and the maximum force probability distribution (Fig. 3) for selected entries in the main text is ok, but the authors should also show all the force profiles and maximum force probability distributions for all the system they simulated in the supplement.
 
-The total number of SMD runs was 550 so including all of the force curves seems impractical.  We have included a figure of the maximum force probability distribution.
+The total number of SMD runs was 550 so including all of the force curves seems impractical.  We have included a figure of the maximum force probability distribution via the box plot in Figure 7.
 
 14. Page 13, row 321. What do the auhtors mean with "unrestrained SMD"?
 
 We removed the word 'unrestrained'.
-
-
