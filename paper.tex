@@ -113,7 +113,7 @@ The GP1/hTfR1 interface marks a particularly important and useful test system. T
 
 In total, we tested 7 point mutants and 3 double mutants in addition to the WT complex (Table~\ref{tab:summary_mutants} and Figure~\ref{fig:mutant_comparison}). All of the mutations are within 5~\AA\ of the protein--protein interface. Mutations at site hTfR1 site 211 have proven capable of causing loss-of-entry according to \textit{in vitro} flow-cytometry infection assays or known host-range limitations \citep{Rad2008,Rad20111,Rad20112}. Most likely, this effect is caused by the destruction of a critical hydrogen bond to Ser113 or Ser111 in GP1. The lost hydrogen bond would lead to the subsequent loss of a large hydrogen-bonding network seen in the crystal structure (Table~\ref{tab:summary_mutants}) \citep{Abraham2010}. In a manner similar to site 211, Asn348 appears to be important for binding by participating in a critical hydrogen bonding network \citep{Rad2008,Abraham2010} to GP1. In particular, Asn348Lys is reported in the literature to cause significantly reduced viral entry \textit{in vivo} (Table~\ref{tab:summary_mutants}) \citep{Rad2008,Abraham2010}. Finally, an alanine mutation at site 111 in GP1 (mutation vArg111Ala) has also been shown to cause decreased entry (Table~\ref{tab:summary_mutants}) \citep{Rad20112}. For notation purposes, the viral site is always referred to with a preceding `v'.  
 
-Despite, the fact that viral binding occurs at the site of a flexible loop in the free hTfR structure, our data shows after binding the strand is extremely rigid. None of the sites in the interfacial strand have root mean squared fluctuation (RMSF) values in the top half of all sites in the complex during equilibration (figure). This is unsurprising considering the high degree of burial that occurs as a result of viral binding. In addition, computing the root mean squared deviation (RMSD) of the entire structure over the trajectory shows that none of the mutations are so deleterious as the cause rapid unbinding. In fact, the RMSD over trajectory looks incredibly invariant across mutants (figure).
+Despite, the fact that viral binding occurs at the site of a flexible loop in the free hTfR structure, our data shows after binding the strand is extremely rigid. None of the sites in the interfacial strand have root mean squared fluctuation (RMSF) values in the top half of all sites in the complex during equilibration (Figure~\ref{fig:rmsf}). This is unsurprising considering the high degree of burial that occurs as a result of viral binding. In addition, computing the root mean squared deviation (RMSD) of the entire structure over the trajectory shows that none of the mutations are so deleterious as the cause rapid unbinding. In fact, the RMSD over trajectory looks incredibly invariant across mutants (Figure~\ref{fig:rmsd}).
 
 \subsection{Molecular dynamics simulations}
 
@@ -160,6 +160,18 @@ This work was carried out using high-performance computing resources provided by
 \begin{figure}[p]
 \centerline{\includegraphics[width=6in]{figures/protein_comparison.pdf}}
 \caption{\label{fig:protein_comparison}\title{The GP1/hTfR1 complex.} GP1 is shown in blue and hTfR1 is shown in green. (A) The full, de-glycosylated GP1/hTfR1 co-crystal structure. (B) The reduced structure used in SMD simulations.}
+\end{figure}
+
+\clearpage
+\begin{figure}[p]
+\centerline{\includegraphics[width=6in]{figures/rmsfs.pdf}}
+\caption{\label{fig:rmsf}\title{RMSF values.} The RMSF values for every site in the bound complex computed during the equilibration phase of the protocol. Each color represents the average over 20 trajectories of a single mutant. The plot shows the flexibility of each site is essentially independent of mutation, and none of the sites above 0.72~\AA\ are found in the interface.}
+\end{figure}
+
+\clearpage
+\begin{figure}[p]
+\centerline{\includegraphics[width=6in]{figures/rmsds.pdf}}
+\caption{\label{fig:rmsd}\title{RMSD values.} The RMSD values over the time of the trajectory computed during the equilibration phase of the protocol. Each color represents the average over 20 trajectories of a single mutant. The plot shows none of the mutants causes immediate unbinding of the protein--protein complex. In addition, the universal upward trend near the end of the equilibration trajectories may indicate the crystal is more tightly packed than would normally occur in solution.}
 \end{figure}
 
 \clearpage
