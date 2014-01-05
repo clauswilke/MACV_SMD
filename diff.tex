@@ -104,7 +104,7 @@ To start the simulation, the \DIFdelbegin \DIFdel{langevin piston }\DIFdelend \D
 
 \subsection{Steered Molecular Dynamics}
 
-\DIFaddbegin \DIFadd{We used the final state from each equilibrated system to restart another MD simulation. Our steering protocol is fundamentally similar to }\citet{Cuendet2008} \DIFadd{with slightly different parameter choices. Perhaps the one significant difference lies in our choosing to not use a thermostat or barostat. However, this should not be a problem since we are not trying to calculate the binding free energy by any physically rigorous approach (the Jarzynski inequality being one example). }\DIFaddend Following equilibration, the final state of each simulation was used to generate a configuration file fixing the $\alpha$-carbon on residues 1, 58, 73-83, 96, 136, 137, 138, and 161 (again with linear numbering) in the hTfR1. \DIFdelbegin \DIFdel{Also, the }\DIFdelend \DIFaddbegin \DIFadd{These residues were selected as they are far from the binding interface and sufficiently distributed to prevent any orientational motion of the receptor relative to the viral spike protein. The }\DIFaddend $\alpha$-carbon of all residues (163-318 in linear numbering) in \DIFdelbegin \DIFdel{the }\DIFdelend GP1 \DIFdelbegin \DIFdel{were given an occupancy of 1, indicating they had an }\DIFdelend \DIFaddbegin \DIFadd{received an }\DIFaddend applied force during the simulation. \DIFdelbegin %DIFDELCMD < 
+\DIFaddbegin \DIFadd{We used the final state from each equilibrated system to restart another MD simulation. Our steering protocol is fundamentally similar to }\citet{Cuendet2008} \DIFadd{with slightly different parameter choices. Perhaps the one significant difference lies in our choosing to not use a thermostat or barostat. However, this should not be a problem since we are not trying to calculate the binding free energy by any physically rigorous approach (the Jarzynski inequality being one example). }\DIFaddend Following equilibration, the final state of each simulation was used to generate a configuration file fixing the $\alpha$-carbon on residues 1, 58, 73-83, 96, 136, 137, 138, and 161 (again with linear numbering) in the hTfR1. \DIFdelbegin \DIFdel{Also, the }\DIFdelend \DIFaddbegin \DIFadd{These residues were selected as they are far from the binding interface and sufficiently distributed to prevent any orientational motion of the receptor relative to the viral spike protein. The center of mass of the }\DIFaddend $\alpha$\DIFdelbegin \DIFdel{-carbon }\DIFdelend \DIFaddbegin \DIFadd{-carbons }\DIFaddend of all residues (163-318 in linear numbering) in \DIFdelbegin \DIFdel{the }\DIFdelend GP1 \DIFdelbegin \DIFdel{were given an occupancy of 1, indicating they had an }\DIFdelend \DIFaddbegin \DIFadd{received an }\DIFaddend applied force during the simulation. \DIFdelbegin %DIFDELCMD < 
 
 %DIFDELCMD < %%%
 \DIFdel{In every way possible the subsequent steering simulation had the same parameters as the equilibration simulation.Thus, the steered molecular dynamics (SMD)}%DIFDELCMD < \citep{Is2001A,Is2001B} %%%
@@ -123,7 +123,7 @@ To leave the final trajectory of a tractable size, only 1000 evenly spaced frame
 \DIFadd{Briefly, we used the traditional dual topology approach to FEP. This involves a thermodynamic cycle where a set of atoms are progressively decoupled from the environment while another set of atoms are progressively coupled. To compute the relative free energy difference requires knowing the free energy change when the transformation is carried out for the bound complex and the individual protein. Then, one can compute the relative free energy difference between a WT and mutant complex by taking the difference between the energy required to decouple/couple the atoms in solution from the energy required to decouple/couple the atoms in the bound complex.
 }
 
-\DIFadd{Again, the NAMD configuration file is made available as a supplemental file. We used a similar configuration to that in equilibration. One significant difference was to make a cubic water box with a side length equal to the long axis of the complex plus a 10~\AA buffer on either side, and simply restrict center of mass motion with the NAMD setting. This was done to avoid affecting the system energy while calculating free energy differences. 
+\DIFadd{Again, the NAMD configuration file is made available as a supplemental file. We used a similar configuration to that in equilibration. One significant difference was to make a cubic water box with a side length equal to the long axis of the complex plus a 10~\AA}\  \DIFadd{buffer on either side, and simply restrict center of mass motion with the NAMD setting. This was done to avoid affecting the system energy while calculating free energy differences. 
 }
 
 \DIFadd{The transition protocol for bound and free protein systems were identical. They started with 1000 steps of minimization and 250,000 steps of equilibration in the starting state for the forward and reverse directions. Phase transitions were carried out in steps of $\lambda$=0.05. Each transition was carried out for 250,000 steps. The first 100,000 steps after phase transition were reserved for equilibration and the final 150,000 steps were used for data collection.
@@ -151,24 +151,23 @@ The GP1/hTfR1 interface marks a particularly important and useful test system. T
 }%DIFDELCMD < 
 
 %DIFDELCMD < %%%
-\DIFdelend In total, we tested 7 point mutants and 3 double mutants in addition to the WT complex (Table~\ref{tab:summary_mutants} and Figure~\ref{fig:mutant_comparison}). \DIFaddbegin \DIFadd{All of the mutations are within 5~\AA of the protein--protein interface. }\DIFaddend Mutations at site hTfR1 site 211 have proven capable of causing loss-of-entry according to \textit{in vitro} flow-cytometry infection assays or known host-range limitations \citep{Rad2008,Rad20111,Rad20112}. Most likely, this effect is caused by the destruction of a critical hydrogen bond to Ser113 or Ser111 in GP1. The lost hydrogen bond would lead to the subsequent loss of a large hydrogen-bonding network seen in the crystal structure (Table~\ref{tab:summary_mutants}) \citep{Abraham2010}. In a manner similar to site 211, Asn348 appears to be important for binding by participating in a critical hydrogen bonding network \citep{Rad2008,Abraham2010} to GP1. In particular, Asn348Lys is reported in the literature to cause significantly reduced viral entry \textit{in vivo} (Table~\ref{tab:summary_mutants}) \citep{Rad2008,Abraham2010}. Finally, an alanine mutation at site 111 in GP1 (mutation vArg111Ala) has also been shown to cause decreased entry (Table~\ref{tab:summary_mutants}) \citep{Rad20112}. For notation purposes, the viral site is always referred to with a preceding `v'.  
+\DIFdelend In total, we tested 7 point mutants and 3 double mutants in addition to the WT complex (Table~\ref{tab:summary_mutants} and Figure~\ref{fig:mutant_comparison}). \DIFaddbegin \DIFadd{All of the mutations are within 5~\AA}\ \DIFadd{of the protein--protein interface. }\DIFaddend Mutations at site hTfR1 site 211 have proven capable of causing loss-of-entry according to \textit{in vitro} flow-cytometry infection assays or known host-range limitations \citep{Rad2008,Rad20111,Rad20112}. Most likely, this effect is caused by the destruction of a critical hydrogen bond to Ser113 or Ser111 in GP1. The lost hydrogen bond would lead to the subsequent loss of a large hydrogen-bonding network seen in the crystal structure (Table~\ref{tab:summary_mutants}) \citep{Abraham2010}. In a manner similar to site 211, Asn348 appears to be important for binding by participating in a critical hydrogen bonding network \citep{Rad2008,Abraham2010} to GP1. In particular, Asn348Lys is reported in the literature to cause significantly reduced viral entry \textit{in vivo} (Table~\ref{tab:summary_mutants}) \citep{Rad2008,Abraham2010}. Finally, an alanine mutation at site 111 in GP1 (mutation vArg111Ala) has also been shown to cause decreased entry (Table~\ref{tab:summary_mutants}) \citep{Rad20112}. For notation purposes, the viral site is always referred to with a preceding `v'.  
 
 \DIFdelbegin \subsection{\DIFdel{Steered molecular dynamics simulations}}
 %DIFAUXCMD
 \addtocounter{subsection}{-1}%DIFAUXCMD
-\DIFdelend \DIFaddbegin \DIFadd{Despite, the fact that viral binding occurs at the site of a flexible loop in the free hTfR structure, our data shows after binding the strand is extremely rigid. None of the sites in the interfacial strand have root mean squared fluctuation (RMSF) values in the top half of all sites in the complex during equilibration (figure). This is unsurprising considering the high degree of burial that occurs as a result of viral binding. In addition, computing the root mean squared deviation (RMSD) of the entire structure over the trajectory shows that none of the mutations are so deleterious as the cause rapid unbinding. In fact, the RMSD over trajectory looks incredibly invariant across mutants (figure).
+\DIFdelend \DIFaddbegin \DIFadd{Despite, the fact that viral binding occurs at the site of a flexible loop in the free hTfR structure, our data shows after binding the strand is extremely rigid. None of the sites in the interfacial strand have root mean squared fluctuation (RMSF) values in the top half of all sites in the complex during equilibration (Figure~\ref{fig:rmsf}). This is unsurprising considering the high degree of burial that occurs as a result of viral binding. In addition, computing the root mean squared deviation (RMSD) of the entire structure over the trajectory shows that none of the mutations are so deleterious as the cause rapid unbinding. In fact, the RMSD over trajectory looks incredibly invariant across mutants (Figure~\ref{fig:rmsd}).
 }\DIFaddend 
 
 \DIFdelbegin \DIFdel{We proceeded to analyze this system using molecular dynamics. To ensure a natural solution structure, we performed an initial equilibration phase to reduce the intrinsic crystallization distortions. First, we generated a physically realistic simulation world around the protein complex . The environment included an explicitly modeled bath of water, and a physiologically relevant concentration of ions. Next, we carried out successive rounds of energy minimization with a fixed $\alpha$-carbon backbone, followed by heating, and backbone release. Last, we performed a short round of all-atom molecular dynamics with minimal restraints }%DIFDELCMD < \citep{Cuendet2008}%%%
 \DIFdel{.
 We used the final state from each equilibrated system to restart another MD simulation. For SMD, at the centroid of several atoms a force was applied to a single point in GP1. By }\DIFdelend \DIFaddbegin \subsection{\DIFadd{Molecular dynamics simulations}}
 
-\DIFadd{We proceeded to analyze this system using two molecular dynamics techniques. First, in SMD by }\DIFaddend using a known spring constant, and pulling with a constant velocity, we could calculate the applied force during protein--protein dissociation \citep{Cuendet2008,Cuendet2011}. A typical averaged force curve comparison can be seen in Figure~\ref{fig:force_curve}. \DIFdelbegin \DIFdel{The force curves for each mutant were smoothed either by averaging over many replicates as in Figure~\ref{fig:force_curve} or by selecting an interpolation window for averaging. The latter approach was used for statistical analysis. In addition, to minimize the computational time in unproductive molecular dynamics, we shortened the simulation time such that the interaction just barely dropped to zero near the end of each run. }\DIFdelend As seen in Figure~\ref{fig:force_curve}, this distance was relatively consistent among mutants. The supplementary movie visually illustrates the separation distance between peptide domains. The quantities maximum applied force and AUC were derived from the force versus distances curves. Their summary statistics are reported in Table~\ref{tab:summary_statistics}. As we are more interested in the phenotypic impact of interface mutations we avoided many of the more physically rigorous, but technically complicated calculations that are possible with SMD \citep{Is2001A,Is2001B}. \DIFaddbegin \DIFadd{Indeed, our set up would not have allowed rigorous calculations as we omitted several tools such as a barostat and a thermostat that would be required for an NPT ensemble.
-}\DIFaddend 
+\DIFadd{We proceeded to analyze this system using two molecular dynamics techniques. First, in SMD by }\DIFaddend using a known \DIFdelbegin \DIFdel{spring }\DIFdelend \DIFaddbegin \DIFadd{force }\DIFaddend constant, and pulling with a constant velocity, we could calculate the applied force during protein--protein dissociation \citep{Cuendet2008,Cuendet2011}. A typical averaged force curve comparison can be seen in Figure~\ref{fig:force_curve}. \DIFdelbegin \DIFdel{The force curves for each mutant were smoothed either by averaging over many replicates as in Figure~\ref{fig:force_curve} or by selecting an interpolation window for averaging. The latter approach was used for statistical analysis. In addition, to minimize the computational time in unproductive molecular dynamics, we shortened the simulation time such that the interaction just barely dropped to zero near the end of each run. }\DIFdelend As seen in Figure~\ref{fig:force_curve}, this distance was relatively consistent among mutants. The supplementary movie visually illustrates the separation distance between peptide domains. The quantities maximum applied force and AUC were derived from the force versus distances curves. Their summary statistics are reported in Table~\ref{tab:summary_statistics}. As we are more interested in the phenotypic impact of interface mutations we avoided many of the more physically rigorous, but technically complicated calculations that are possible with SMD \citep{Is2001A,Is2001B}.
 
 Before systematically applying SMD to the GP1/hTfR1 interaction, we needed to ensure the method was sufficiently sensitive to distinguish between relatively minor point mutations. While SMD has been applied previously to measure the binding energy of high-affinity T-cell receptor interactions \citep{Cuendet2008,Cuendet2011}, to our knowledge the method has never been used previously to parse small differences in a complex energy landscape. For this initial sensitivity analysis, we tested alanine substitutions congruent with the traditional experimental and computational approach. 
 
-We \DIFaddbegin \DIFadd{proceeded to compare our SMD results to that of the standard dual topology FEP approach to calculate relative free energy differences. The correlation between the energetically rigorous FEP and our statistical approach is high. For all 11 complexes tested, the correlation between max force and FEP was r=0.767 at p=0.00576, and the correlation between AUC and FEP was r=0.72 at p=0.01 (figure). As a result of the strong correlation, we will generally refer to the SMD differences only.
+We \DIFaddbegin \DIFadd{proceeded to compare our SMD results to that of the standard dual topology FEP approach to calculate relative free energy differences. The correlation between the energetically rigorous FEP and our statistical approach is high. For all 11 complexes tested, the correlation between max force and FEP was r=-0.767 at p=0.005857 (Figure~\ref{fig:fep}), and the correlation between AUC and FEP was r=--0.729 at p=0.011. As a result of the strong correlation, we will generally refer to the SMD differences only.
 }
 
 \DIFadd{We }\DIFaddend found that relative to WT, one alanine mutation (Tyr211Ala) produced a very large and statistically significant difference in the maximum applied force and AUC (Figure~\ref{fig:force_curve}, Table~\ref{tab:MAF_pairwise}), while the other two did not (Table~\ref{tab:MAF_pairwise}). When considering additional mutants (also discussed below), we found that maximum applied force was generally sufficient to distinguish mutants (Tables~\ref{tab:MAF_pairwise} and~\ref{tab:MAF_p}), and AUC was able to add a few more statistically significant differences (Table~\ref{tab:AUC_p}). In general, however, maximum applied force seemed to be the more sensitive statistic than AUC.
@@ -198,10 +197,12 @@ For future studies, although our approach offers the simplicity of not requiring
 }
 
 \DIFadd{More importantly, with no \textit{a priori} knowledge of the appropriate number of equilibration samples, the during of equilibration, the appropriate number of pulling runs, or the best pulling speed means the computational expense in our SMD protocol may not be commensurate with the information provided. For example, }\DIFaddend another all atom approach that makes calculations via short simulations of spatially restrained complexes has proven capable of generating relatively accurate binding affinities with less compute time than is required from our steering strategy \DIFdelbegin %DIFDELCMD < \citep{Gumbart2013b}%%%
-\DIFdelend \DIFaddbegin \citep{Gumbart2013,Gumbart2013b}\DIFadd{. That being said, there is no reason to believe this SMD approach to mutagenic studies could not be optimized to reduce computational expense. Further analysis would be needed to understand the lower limits of resources required for accurate predictions}\DIFaddend .
+\DIFdel{. }\DIFdelend \DIFaddbegin \citep{Gumbart2013,Gumbart2013b}\DIFadd{. That being said, there is no reason to believe this SMD approach to mutagenic studies could not be optimized to reduce computational expense. Further analysis would be needed to understand the lower limits of resources required for accurate predictions.
+}\DIFaddend 
 
 \section{Acknowledgements}
-This work was carried out using high-performance computing resources provided by the High Performance Computing Center (HPCC) at Texas Tech University at Lubbock \\ (http://www.hpcc.ttu.edu) and the Texas Advanced Computing Center (TACC) at The University of Texas at Austin (http://www.tacc.utexas.edu). The authors acknowledge Bryan Sutton for opening access to the Hrothgar cluster.
+This work was carried out using high-performance computing resources provided by the High Performance Computing Center (HPCC) at Texas Tech University at Lubbock \\ (http://www.hpcc.ttu.edu) and the Texas Advanced Computing Center (TACC) at The University of Texas at Austin (http://www.tacc.utexas.edu). The authors acknowledge Bryan Sutton for opening access to the Hrothgar cluster. \DIFaddbegin \DIFadd{The authors also acknowledge the reviewers Ilan Samish and Matteo Masetti for their helpful comments in preparing this manuscript.
+}\DIFaddend 
 
 \bibliographystyle{MBE}
 \bibliography{paper}
@@ -214,7 +215,19 @@ This work was carried out using high-performance computing resources provided by
 
 \clearpage
 \begin{figure}[p]
-\centerline{\includegraphics[width=6in]{figures/force_curve.pdf}}
+\DIFaddbeginFL \centerline{\includegraphics[width=6in]{figures/rmsfs.pdf}}
+\caption{\label{fig:rmsf}\title{\DIFaddFL{RMSF values.}} \DIFaddFL{The RMSF values for every site in the bound complex computed during the equilibration phase of the protocol. Each color represents the average over 20 trajectories of a single mutant. The plot shows the flexibility of each site is essentially independent of mutation, and none of the sites above 0.72~\AA}\ \DIFaddFL{are found in the interface.}}
+\end{figure}
+
+\clearpage
+\begin{figure}[p]
+\centerline{\includegraphics[width=6in]{figures/rmsds.pdf}}
+\caption{\label{fig:rmsd}\title{\DIFaddFL{RMSD values.}} \DIFaddFL{The RMSD values over the time of the trajectory computed during the equilibration phase of the protocol. Each color represents the average over 20 trajectories of a single mutant. The plot shows none of the mutants causes immediate unbinding of the protein--protein complex. In addition, the universal upward trend near the end of the equilibration trajectories may indicate the crystal is more tightly packed than would normally occur in solution.}}
+\end{figure}
+
+\clearpage
+\begin{figure}[p]
+\DIFaddendFL \centerline{\includegraphics[width=6in]{figures/force_curve.pdf}}
 \caption{\label{fig:force_curve}\title{Force versus distance curve of WT and the Y211A mutant.} The average force curve for 50 replicates of the WT complex is shown in black, and the average of 50 replicates of the Y211A mutant is shown in red. There is a large difference in both maximum applied force and AUC between the two complexes.}
 \end{figure}
 
@@ -226,7 +239,13 @@ This work was carried out using high-performance computing resources provided by
 
 \clearpage
 \begin{figure}[p]
-\centerline{\includegraphics[width=6in]{figures/mutant_comparison_boxplot.pdf}}
+\DIFaddbeginFL \centerline{\includegraphics[width=6in]{figures/fep_mutants.pdf}}
+\caption{\label{fig:fep}\title{\DIFaddFL{Max force versus free energy perturbation}} \DIFaddFL{Scatter plot of maximum force in SMD versus the relative free energy difference calculated by FEP for all 10 mutants tested plus the WT complex. The WT complex for FEP was simply set to 0.0. The correlation between the two is r=-0.767 with p=0.005857.}}
+\end{figure}
+
+\clearpage
+\begin{figure}[p]
+\DIFaddendFL \centerline{\includegraphics[width=6in]{figures/mutant_comparison_boxplot.pdf}}
 \caption{\label{fig:mutant_comparison}\title{Distribution of interpolated maximum force for all bound complexes tested.} Stars above the boxplots indicate a statistically significant difference in mean maximum force relative to the WT complex.}
 \end{figure}
 
@@ -249,31 +268,6 @@ This work was carried out using high-performance computing resources provided by
    N348A/Y211A &                 No &                    - \\
    N348W/Y211A &                 No &                    - \\
   vR111A/Y211A &                 No &                    - \\
-    \hline
-    \end{tabular}
-  }
-\end{center}
-\end{table}
-
-\clearpage
-\begin {table}[H]
-\caption{\label{tab:summary_statistics}Summary statistics for each mutation tested. $\mu_\text{MAF}$ is the mean and $\sigma_\text{MAF}$ is the standard deviation of maximum applied force over all simulations. $\mu_\text{AUC}$ is the mean and $\sigma_\text{AUC}$ is the standard deviation of AUC over all simulations.}
-\begin{center}
-  \resizebox{11cm}{!} {
-    \begin{tabular}{l c c c c}
-    \hline
-      Mutation &      $\mu_\text{MAF}$ & $\sigma_\text{MAF}$ & $\mu_\text{AUC}$ & $\sigma_\text{AUC}$ \\ \hline
-            WT &                772.00 &              154.13 &         198794.7 &            66765.64 \\
-         N348A &                799.33 &              154.36 &         202247.3 &            65175.78 \\
-         N348K &                731.36 &              151.01 &         179087.5 &            55799.49 \\
-         N348W &                732.13 &              131.21 &         192043.2 &            66916.36 \\
-         Y211A &                684.03 &              126.69 &         153517.7 &            40889.12 \\ 
-         Y211D &                875.44 &              116.46 &         234909.3 &            50494.11 \\ 
-         Y211T &                861.17 &              158.48 &         231078.7 &            97569.29 \\
-        vR111A &                754.39 &              103.25 &         185896.8 &            46408.74 \\
-   N348A/Y211A &                762.96 &              144.81 &         173059.2 &            59898.10 \\
-   N348W/Y211A &                617.21 &              163.33 &         147705.6 &            48548.61 \\
-  vR111A/Y211A &                780.71 &              135.65 &         189919.1 &            48868.16 \\
     \hline
     \end{tabular}
   }
