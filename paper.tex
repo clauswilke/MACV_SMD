@@ -104,7 +104,7 @@ The FEP analysis tool in VMD was used for subsequent analysis. We used it to per
 
 The python packages MDAnalysis \citep{Agrawal2011} and ProDy \citep{Bakan2011} were both used at various points in post-processing. The molecular trajectory (comprising the atomic coordinates per time) was parsed to compute the center-of-mass for each of the two complexes. The starting center-of-mass distance was set to zero and the distance was re-computed at each time step relative to the starting distance. 
 
-The statistical package R was used for all further analysis and visualization. Each of the 50 independent trajectories per mutant produced a fairly noisy force curve. The force curves for each mutant were smoothed either by averaging over many replicates as in Figure~\ref{fig:force_curve} or by selecting a 50 frame interpolation window for averaging. The latter approach was used for statistical analysis. The two primary descriptive statistics we used were maximum interpolated applied force and total area under the interpolated curve (AUC). We used the pairwise.t.test function with the FDR p-value correction to test for significance. The ggplot \citep{ggplot} package was used to generate most of the figures. 
+The statistical package R was used for all further analysis and visualization. Each of the 50 independent trajectories per mutant produced a fairly noisy force curve. The force curves for each mutant were smoothed either by using the smooth.spline and predict functions in R with default settings over all replicates as in Figure~\ref{fig:force_curve}. The latter approach was used for statistical analysis. The two primary descriptive statistics we used were maximum interpolated applied force and total area under the interpolated curve (AUC). We used the pairwise.t.test function with the FDR p-value correction to test for significance. The ggplot \citep{ggplot} package was used to generate most of the figures. 
 
 \section{Results}
 
@@ -121,7 +121,7 @@ We proceeded to analyze this system using two molecular dynamics techniques. Fir
 
 Before systematically applying SMD to the GP1/hTfR1 interaction, we needed to ensure the method was sufficiently sensitive to distinguish between relatively minor point mutations. While SMD has been applied previously to measure the binding energy of high-affinity T-cell receptor interactions \citep{Cuendet2008,Cuendet2011}, to our knowledge the method has never been used previously to parse small differences in a complex energy landscape. For this initial sensitivity analysis, we tested alanine substitutions congruent with the traditional experimental and computational approach. 
 
-We proceeded to compare our SMD results to that of the standard dual topology FEP approach to calculate relative free energy differences. The correlation between the energetically rigorous FEP and our statistical approach is high. For all 11 complexes tested, the correlation between max force and FEP was $r=-0.767$ at $p=0.005857$ (Figure~\ref{fig:fep}), and the correlation between AUC and FEP was $r=--0.729$ at $p=0.011$. Because of this strong correlation, we refer exclusively to the SMD results for the remainder of this work.
+We proceeded to compare our SMD results to that of the standard dual topology FEP approach to calculate relative free energy differences. The correlation between the energetically rigorous FEP and our statistical approach is high. For all 11 complexes tested, the correlation between max force and FEP was $r=-0.795$ at $p=0.0034$ (Figure~\ref{fig:fep}), and the correlation between AUC and FEP was $r=-0.593$ at $p=0.055$. Because of this strong correlation, we refer exclusively to the SMD results for the remainder of this work.
 
 We found that relative to WT, one alanine mutation (Tyr211Ala) produced a very large and statistically significant difference in the maximum applied force and AUC (Figure~\ref{fig:force_curve}, Table~\ref{tab:MAF_pairwise}), while the other two did not (Table~\ref{tab:MAF_pairwise}). When considering additional mutants (also discussed below), we found that maximum applied force was generally sufficient to distinguish mutants (Tables~\ref{tab:MAF_pairwise} and~\ref{tab:MAF_p}), and AUC was able to add a few more statistically significant differences (Table~\ref{tab:AUC_p}). In general, however, maximum applied force seemed to be the more sensitive statistic than AUC.
 
@@ -195,7 +195,7 @@ This work was carried out using high-performance computing resources provided by
 \clearpage
 \begin{figure}[p]
 \centerline{\includegraphics[width=6in]{figures/fep_mutants.pdf}}
-\caption{\label{fig:fep}\title{Max force versus free energy perturbation.} Scatter plot of maximum force in SMD versus the relative free energy difference calculated by FEP for all 10 mutants tested plus the WT complex. The WT complex for FEP was simply set to 0.0. The correlation between the two is $r=-0.767$ with $p=0.005857$.}
+\caption{\label{fig:fep}\title{Max force versus free energy perturbation.} Scatter plot of maximum force in SMD versus the relative free energy difference calculated by FEP for all 10 mutants tested plus the WT complex. The WT complex for FEP was simply set to 0.0. The correlation between the two is $r=-0.795$ with $p=0.0034$.}
 \end{figure}
 
 \clearpage
@@ -216,13 +216,14 @@ This work was carried out using high-performance computing resources provided by
          N348A &                 No &                    - \\
          N348K &                Yes &     Diminished Entry \\
          N348W &                 No &                    - \\
-         Y211A &                 No &        No Expression \\
-         Y211D &                Yes &        No Expression \\
-         Y211T &                 No &     Diminished Entry \\
         vR111A &                 No &     Diminished Entry \\
    N348A/Y211A &                 No &                    - \\
-   N348W/Y211A &                 No &                    - \\
   vR111A/Y211A &                 No &                    - \\
+         Y211D &                Yes &        No Expression \\
+         Y211T &                 No &     Diminished Entry \\
+         Y211A &                 No &        No Expression \\
+   N348W/Y211A &                 No &                    - \\
+  
     \hline
     \end{tabular}
   }
@@ -237,17 +238,17 @@ This work was carried out using high-performance computing resources provided by
     \begin{tabular}{l c c c c c}
     \hline
       Mutation & $\mu_\text{MAF}$ (pN) & $\sigma_\text{MAF}$ & $\mu_\text{AUC}$ & $\sigma_\text{AUC}$ & $\Delta G$ (kcal/mol)\\ \hline
-            WT &                772.00 &              154.13 &         198794.7 &            66765.64 &  0.000\\
-         N348A &                799.33 &              154.36 &         202247.3 &            65175.78 & -2.149\\
-         N348K &                731.36 &              151.01 &         179087.5 &            55799.49 & +3.184\\
-         N348W &                732.13 &              131.21 &         192043.2 &            66916.36 & +3.033\\
-         Y211A &                684.03 &              126.69 &         153517.7 &            40889.12 & +2.526\\ 
-         Y211D &                875.44 &              116.46 &         234909.3 &            50494.11 & -2.760\\ 
-         Y211T &                861.17 &              158.48 &         231078.7 &            97569.29 & +0.876\\
-        vR111A &                754.39 &              103.25 &         185896.8 &            46408.74 & +0.467\\
-   N348A/Y211A &                762.96 &              144.81 &         173059.2 &            59898.10 & +5.203\\
-   N348W/Y211A &                617.21 &              163.33 &         147705.6 &            48548.61 & +8.207\\
-  vR111A/Y211A &                780.71 &              135.65 &         189919.1 &            48868.16 & -2.441\\
+            WT &                734.4856 &              131.6513 &         145460.4 &            60232.26 &  0.000\\
+         N348A &                748.5217 &              137.4864 &         133913.9 &            51078.64 & -2.149\\
+         N348K &                705.0707 &              108.5079 &         141084.4 &            54450.28 & +3.184\\
+         N348W &                697.3642 &              132.6436 &         136886.0 &            53796.44 & +3.033\\
+        vR111A &                713.8081 &              106.7374 &         136103.2 &            52070.85 & +0.466\\ 
+   N348A/Y211A &                703.7027 &              128.5866 &         113464.2 &            57451.62 & +5.203\\ 
+  vR111A/Y211A &                741.0642 &              131.6287 &         130070.6 &            47665.56 & -2.440\\
+         Y211D &                825.2586 &              115.4343 &         158878.7 &            63039.08 & +2.760\\
+         Y211T &                806.8593 &              136.5648 &         167110.7 &            78849.29 & +0.875\\
+         Y211A &                654.1138 &              108.5343 &         108090.0 &            43661.09 & +2.526\\
+   N348W/Y211A &                594.9044 &              134.8233 &         108984.2 &            45451.00 & +8.206\\
     \hline
     \end{tabular}
   }
@@ -256,22 +257,22 @@ This work was carried out using high-performance computing resources provided by
 
 \clearpage
 \begin {table}[H]
-\caption{\label{tab:MAF_pairwise}Pairwise differences (row variable minus column variable) in mean maximum applied force. Bolded values are statistically significant at $p<0.05$. Values marked with * and ** are significant at $p<0.01$ and $p<0.001$, respectively.}
+\caption{\label{tab:MAF_pairwise}Pairwise differences (row variable minus column variable) in mean maximum applied force. Bolded values are statistically significant at $p<0.05$.}
 \begin{center}
   \resizebox{16cm}{!} {
     \begin{tabular}{l l l l l l l l l l l}
     \hline
-                & WT                  & N348A              & N348W              & N348K              & Y211A             & Y211D              & Y211T              & vR111A             & N348A/Y211A        & N348W/Y211A        \\ \hline
-    N348A       &  27.33              &                    &                    &                    &                   &                    &                    &                    &                    &                    \\
-    N348W       & -39.87              & \textbf{-67.20}    &                    &                    &                   &                    &                    &                    &                    &                    \\
-    N348K       & -40.64              & \textbf{-67.97}    & -0.77              &                    &                   &                    &                    &                    &                    &                    \\
-    Y211A       & \textbf{-87.97*}    & \textbf{-115.30**} & -48.10             & -47.33             &                   &                    &                    &                    &                    &                    \\
-    Y211D       & \textbf{103.44**}   & \textbf{76.12*}    & \textbf{143.31**}  & \textbf{144.08**}  & \textbf{191.42**} &                    &                    &                    &                    &                    \\
-    Y211T       & \textbf{89.17*}     & \textbf{61.85}     & \textbf{129.04**}  & \textbf{129.81**}  & \textbf{177.15**} & -14.27             &                    &                    &                    &                    \\
-   vR111A       & -17.76              & -44.94             & 22.26              & 23.03              & \textbf{70.36}    & \textbf{-121.05**} & \textbf{-106.78**} &                    &                    &                    \\
-    N348A/Y211A & -9.04               & -36.37             & 30.83              & 31.60              & \textbf{78.93}    & \textbf{-112.48**} & \textbf{-98.21*}   & 8.57               &                    &                    \\
-    N348W/Y211A & \textbf{-154.79**}  & \textbf{-182.12**} & \textbf{-114.92**} & \textbf{-114.15**} & \textbf{-66.2}    & \textbf{-258.23**} & \textbf{-243.96**} & \textbf{-137.18**} & \textbf{-145.75**} &                    \\
-   vR111A/Y211A &  8.71               & -18.12             & 48.58              & 49.35              & \textbf{96.68*}   & \textbf{-94.74*}   & \textbf{-80.46*}   & 26.31              & 0.59               & \textbf{163.50**} \\
+             & WT                      & N348A                   & N348W                   & N348K                   & vR111A                  & N348A/Y211A               & vR111A/Y211A            & Y211D                   & Y211T                   & Y211A  \\ \hline
+    N348A       & +14.036              &                         &                         &                         &                         &                           &                         &                         &                         &        \\
+    N348W       & -29.414              & -43.451                 &                         &                         &                         &                           &                         &                         &                         &        \\
+    N348K       & -37.121              & \textbf{-51.157}        & -7.7060                 &                         &                         &                           &                         &                         &                         &        \\
+   vR111A       & -20.677              & -34.713                 & +8.7370                 & +16.443                 &                         &                           &                         &                         &                         &        \\
+    N348A/Y211A & -30.782              & -44.819                 & -1.3670                 & +6.3380                 & -10.105                 &                           &                         &                         &                         &        \\
+   vR111A/Y211A & +6.5790              & -7.4570                 & +35.993                 & +43.700                 & +27.256                 & +37.361                   &                         &                         &                         &        \\
+    Y211D       & \textbf{+90.772}     & \textbf{+76.736}        & \textbf{+120.19}        & \textbf{+127.89}        & \textbf{+111.45}        & \textbf{+121.56}          & \textbf{+84.194}        &                         &                         &        \\
+    Y211T       & \textbf{+72.373}     & \textbf{+58.337}        & \textbf{+101.79}        & \textbf{+109.50}        & \textbf{+93.051}        & \textbf{+103.16}          & \textbf{+65.795}        & -18.399                 &                         &        \\
+    Y211A       & \textbf{-80.371}     & \textbf{-94.407}        & -50.956                 & -43.250                 & \textbf{-59.694}        & -49.588                   & \textbf{-86.950}        & \textbf{-171.1 4}       & \textbf{-152.75}        &        \\
+    N348W/Y211A & \textbf{-139.58}     & \textbf{-153.62}        & \textbf{-110.17}        & \textbf{+102.46}        & \textbf{-118.903}       & \textbf{-108.80}          & \textbf{+146.16}        & \textbf{+230.35}        & \textbf{-211.95}        & \textbf{-59.209}  \\
     \hline
     \end{tabular}
   }
@@ -285,17 +286,17 @@ This work was carried out using high-performance computing resources provided by
   \resizebox{16cm}{!} {
     \begin{tabular}{l l l l l l l l l l l}
     \hline
-                & WT                      & N348A                   & N348W                   & N348K                   & Y211A                   & Y211D                     & Y211T                   & vR111A                  & N348A/Y211A             & N348W/Y211A \\ \hline
-    N348A       & 0.35                    &                         &                         &                         &                         &                           &                         &                         &                         &        \\
-    N348W       & 0.22                    & \textbf{0.012}          &                         &                         &                         &                           &                         &                         &                         &        \\
-    N348K       & 0.22                    & \textbf{0.012}          & 0.98                    &                         &                         &                           &                         &                         &                         &        \\
-    Y211A       & \textbf{0.0045}         & \textbf{1.6x10$^{-05}$} & 0.14                    & 0.15                    &                         &                           &                         &                         &                         &        \\
-    Y211D       & \textbf{0.00083}        & \textbf{0.0045}         & \textbf{3.9x10$^{-06}$} & \textbf{3.9x10$^{-06}$} & \textbf{5.7x10$^{-10}$} &                           &                         &                         &                         &        \\
-    Y211T       & \textbf{0.0042}         & \textbf{0.022}          & \textbf{3.0x10$^{-05}$} & \textbf{3.0x10$^{-05}$} & \textbf{1.0x10$^{-08}$} & 0.67                      &                         &                         &                         &        \\
-   vR111A       & 0.59                    & 0.11                    & 0.51                    & 0.51                    & \textbf{0.024}          & \textbf{8.9x10$^{-05}$}   & \textbf{0.00056}        &                         &                         &        \\
-    N348A/Y211A & 0.78                    & 0.20                    & 0.35                    & 0.35                    & \textbf{0.011}          & \textbf{0.00026}          & \textbf{0.0016}         & 0.78                    &                         &        \\
-    N348W/Y211A & \textbf{6.2x10$^{-07}$} & \textbf{9.3x10$^{-12}$} & \textbf{0.00021}        & \textbf{0.00026}        & \textbf{0.032}          & \textbf{$<$ 2x10$^{-16}$} & \textbf{2.4x10$^{-15}$} & \textbf{9.1x10$^{-06}$} & \textbf{2.8x10$^{-06}$} &        \\
-   vR111A/Y211A & 0.78                    & 0.52                    & 0.14                    & 0.14                    & \textbf{0.0019}         & \textbf{0.0024}           & \textbf{0.010}          & 0.44                    & 0.59                    & \textbf{1.6x10$^{-07}$}  \\
+                & WT                      & N348A                   & N348W                   & N348K                   & vR111A                  & N348A/Y211A               & vR111A/Y211A            & Y211D                   & Y211T                   & Y211A  \\ \hline
+    N348A       & 0.60                    &                         &                         &                         &                         &                           &                         &                         &                         &        \\
+    N348W       & 0.31                    & 0.077                   &                         &                         &                         &                           &                         &                         &                         &        \\
+    N348K       & 0.20                    & \textbf{0.038}          & 0.81                    &                         &                         &                           &                         &                         &                         &        \\
+   vR111A       & 0.51                    & 0.16                    & 0.79                    & 0.60                    &                         &                           &                         &                         &                         &        \\
+    N348A/Y211A & 0.29                    & 0.07                    & 0.95                    & 0.81                    & 0.77                    &                           &                         &                         &                         &        \\
+   vR111A/Y211A & 0.82                    & 0.79                    & 0.21                    & 0.13                    & 0.35                    & 0.20                      &                         &                         &                         &        \\
+    Y211D       & \textbf{0.00093}        & \textbf{0.0012}         & \textbf{1.4x10$^{-5}$}  & \textbf{5.0x10$^{-6}$}  & \textbf{5.6x10$^{-5}$}  & \textbf{1.2x10$^{-5}$}    & \textbf{0.0022}         &                         &                         &        \\
+    Y211T       & \textbf{0.01}           & \textbf{0.018}          & \textbf{0.00022}        & \textbf{8.7x10$^{-5}$}  & \textbf{0.0008}         & \textbf{0.0002}           & \textbf{0.021}          & 0.56                    &                         &        \\
+    Y211A       & \textbf{0.0034}         & \textbf{7.2x10$^{-05}$} & 0.074                   & 0.13                    & \textbf{0.035}          & 0.079                     & \textbf{0.0016}         & \textbf{4.2x10$^{-10}$} & \textbf{4.2x10$^{-8}$}  &        \\
+    N348W/Y211A & \textbf{3.9x10$^{-7}$}  & \textbf{1.1x10$^{-10}$} & \textbf{6.5x10$^{-5}$}  & \textbf{0.00021}        & \textbf{1.6x10$^{-5}$}  & \textbf{7.2x10$^{-5}$}    & \textbf{1.3x10$^{-7}$}  & \textbf{< 2x10$^{-16}$} & \textbf{2.0x10$^{-14}$} & \textbf{0.036}  \\
     \hline
     \end{tabular}
   }
@@ -308,17 +309,17 @@ This work was carried out using high-performance computing resources provided by
   \resizebox{16cm}{!} {
     \begin{tabular}{l l l l l l l l l l l}
     \hline
-                & WT               & N348A                   & N348W           & N348K                   & Y211A                   & Y211D                   & Y211T                   & vR111A          & N348A/Y211A & N348W/Y211A \\ \hline
-    N348A       & 0.77             &                         &                 &                         &                         &                         &                         &                 &             &        \\
-    N348W       & 0.67             & 0.42                    &                 &                         &                         &                         &                         &                 &             &        \\
-    N348K       & 0.17             & 0.056                   & 0.38            &                         &                         &                         &                         &                 &             &        \\
-    Y211A       & \textbf{0.00094} & \textbf{3.5x10$^{-05}$} & \textbf{0.0045} & 0.063                   &                         &                         &                         &                 &             &        \\
-    Y211D       & \textbf{0.0072}  & \textbf{0.0051}         & \textbf{0.0016} & \textbf{4.6x10$^{-05}$} & \textbf{1.2x10$^{-09}$} &                         &                         &                 &             &        \\
-    Y211T       & \textbf{0.016}   & \textbf{0.014}          & \textbf{0.0041} & \textbf{0.00016}        & \textbf{6.1x10$^{-09}$} & 0.77                    &                         &                 &             &        \\
-   vR111A       & 0.38             & 0.18                    & 0.68            & 0.67                    & \textbf{0.016}          & \textbf{0.00032}        & \textbf{0.00094}        &                 &             &        \\
-    N348A/Y211A & 0.061            & \textbf{0.013}          & 0.18            & 0.68                    & 0.17                    & \textbf{5.2x10$^{-06}$} & \textbf{2.1$^{-05}$}    & 0.38            &             &        \\
-    N348W/Y211A & \textbf{0.00017} & \textbf{3.9x10$^{-06}$} & \textbf{0.0011} & \textbf{0.021}          & 0.68                    & \textbf{1.6x10$^{-10}$} & \textbf{6.3x10$^{-10}$} & \textbf{0.0047} & 0.063       &        \\
-   vR111A/Y211A & 0.56             & 0.34                    & 0.86            & 0.47                    & \textbf{0.0072}         & \textbf{0.0010}         & \textbf{0.0025}         & 0.77            & 0.24        & \textbf{0.0019}  \\
+                & WT                      & N348A                   & N348W                   & N348K                   & vR111A                  & N348A/Y211A               & vR111A/Y211A            & Y211D                   & Y211T                   & Y211A  \\ \hline
+    N348A       & 0.33                    &                         &                         &                         &                         &                           &                         &                         &                         &        \\
+    N348W       & 0.76                    & 0.59                    &                         &                         &                         &                           &                         &                         &                         &        \\
+    N348K       & 0.59                    & 0.80                    & 0.76                    &                         &                         &                           &                         &                         &                         &        \\
+   vR111A       & 0.55                    & 0.85                    & 0.76                    & 0.94                    &                         &                           &                         &                         &                         &        \\
+    N348A/Y211A & \textbf{0.017}          & 0.07                    & \textbf{0.031}          & 0.076                   & 0.08                    &                           &                         &                         &                         &        \\
+   vR111A/Y211A & 0.26                    & 0.76                    & 0.46                    & 0.68                    & 0.72                    & 0.22                      &                         &                         &                         &        \\
+    Y211D       & 0.33                    & \textbf{0.029}          & 0.18                    & 0.09                    & 0.08                    & \textbf{0.00046}          & \textbf{0.029}          &                         &                         &        \\
+    Y211T       & 0.09                    & \textbf{0.0056}         & \textbf{0.046}          & \textbf{0.027}          & \textbf{0.023}          & \textbf{4.1x10$^{-5}$}    & \textbf{0.006}          & 0.59                    &                         &        \\
+    Y211A       & \textbf{0.0056}         & \textbf{0.027}          & \textbf{0.016}          & \textbf{0.029}          & \textbf{0.031}          & 0.75                      & 0.09                    & \textbf{8.2x10$^{-5}$}  & \textbf{8.5x10$^{-6}$}  &        \\
+    N348W/Y211A & \textbf{0.006}          & \textbf{0.029}          & \textbf{0.017}          & \textbf{0.032}          & \textbf{0.034}          & 0.76                      & 0.1                     & \textbf{9.4x10$^{-5}$}  & \textbf{8.5x10$^{-6}$}  & 0.94  \\
     \hline
     \end{tabular}
   }

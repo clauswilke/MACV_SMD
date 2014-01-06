@@ -1,6 +1,6 @@
 rm(list = ls())
 
-setwd('~/Google Drive/Documents/Biochem/Research/SMD_manuscript/MACV_SMD/smd_pro/')
+setwd('~/Desktop/MACV_SMD/smd_pro/')
 
 diff.plot <- function(diff.df) {
   require(ggplot2)
@@ -199,7 +199,7 @@ df$id <- factor(df$id, c('WT', 'N348A', 'N348K', 'N348W',
                          'R111A', 'N348A/Y211A', 'vR111A/Y211A', 
                          'Y211D', 'Y211T', 'Y211A', 'N348W/Y211A'))
 
-smd.boxplot(df)
+#smd.boxplot(df)
 
 
 #fit <- aov(y1 + y2 ~ id, data = df)

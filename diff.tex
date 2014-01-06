@@ -138,7 +138,7 @@ The python packages MDAnalysis \citep{Agrawal2011} and ProDy \citep{Bakan2011} w
 \DIFdelbegin \DIFdel{The force was output directly to the standard log file.
 }\DIFdelend 
 
-The statistical package R was used for all further analysis and visualization. Each of the 50 independent trajectories per mutant produced a fairly noisy force curve. \DIFdelbegin \DIFdel{To reduce the noise, we averaged each point with }\DIFdelend \DIFaddbegin \DIFadd{The force curves for each mutant were smoothed either by averaging over many replicates as in Figure~\ref{fig:force_curve} or by selecting }\DIFaddend a 50 \DIFdelbegin \DIFdel{point interpolation window }\DIFdelend \DIFaddbegin \DIFadd{frame interpolation window for averaging. The latter approach was used for statistical analysis}\DIFaddend . The \DIFdelbegin \DIFdel{window ensured that the averaged maximum applied force was never cut off near the beginning of the simulation due to lost time steps (caused by averaging). The }\DIFdelend two primary descriptive statistics we used were maximum interpolated applied force and total area under the interpolated curve (AUC). We used the pairwise.t.test function with the FDR p-value correction to test for significance. The ggplot \citep{ggplot} package was used to generate most of the figures. 
+The statistical package R was used for all further analysis and visualization. Each of the 50 independent trajectories per mutant produced a fairly noisy force curve. \DIFdelbegin \DIFdel{To reduce the noise, we averaged each point with a 50 point interpolation window. The window ensured that the averaged maximum applied force was never cut off near the beginning of the simulation due to lost time steps (caused by averaging)}\DIFdelend \DIFaddbegin \DIFadd{The force curves for each mutant were smoothed either by using the smooth.spline and predict functions in R with default settings over all replicates as in Figure~\ref{fig:force_curve}. The latter approach was used for statistical analysis}\DIFaddend . The two primary descriptive statistics we used were maximum interpolated applied force and total area under the interpolated curve (AUC). We used the pairwise.t.test function with the FDR p-value correction to test for significance. The ggplot \citep{ggplot} package was used to generate most of the figures. 
 
 \section{Results}
 
@@ -167,7 +167,7 @@ By using a known spring }\DIFdelend \DIFaddbegin \subsection{\DIFadd{Molecular d
 
 Before systematically applying SMD to the GP1/hTfR1 interaction, we needed to ensure the method was sufficiently sensitive to distinguish between relatively minor point mutations. While SMD has been applied previously to measure the binding energy of high-affinity T-cell receptor interactions \citep{Cuendet2008,Cuendet2011}, to our knowledge the method has never been used previously to parse small differences in a complex energy landscape. For this initial sensitivity analysis, we tested alanine substitutions congruent with the traditional experimental and computational approach. 
 
-We \DIFaddbegin \DIFadd{proceeded to compare our SMD results to that of the standard dual topology FEP approach to calculate relative free energy differences. The correlation between the energetically rigorous FEP and our statistical approach is high. For all 11 complexes tested, the correlation between max force and FEP was $r=-0.767$ at $p=0.005857$ (Figure~\ref{fig:fep}), and the correlation between AUC and FEP was $r=--0.729$ at $p=0.011$. Because of this strong correlation, we refer exclusively to the SMD results for the remainder of this work.
+We \DIFaddbegin \DIFadd{proceeded to compare our SMD results to that of the standard dual topology FEP approach to calculate relative free energy differences. The correlation between the energetically rigorous FEP and our statistical approach is high. For all 11 complexes tested, the correlation between max force and FEP was $r=-0.795$ at $p=0.0034$ (Figure~\ref{fig:fep}), and the correlation between AUC and FEP was $r=-0.593$ at $p=0.055$. Because of this strong correlation, we refer exclusively to the SMD results for the remainder of this work.
 }
 
 \DIFadd{We }\DIFaddend found that relative to WT, one alanine mutation (Tyr211Ala) produced a very large and statistically significant difference in the maximum applied force and AUC (Figure~\ref{fig:force_curve}, Table~\ref{tab:MAF_pairwise}), while the other two did not (Table~\ref{tab:MAF_pairwise}). When considering additional mutants (also discussed below), we found that maximum applied force was generally sufficient to distinguish mutants (Tables~\ref{tab:MAF_pairwise} and~\ref{tab:MAF_p}), and AUC was able to add a few more statistically significant differences (Table~\ref{tab:AUC_p}). In general, however, maximum applied force seemed to be the more sensitive statistic than AUC.
@@ -246,7 +246,7 @@ This work was carried out using high-performance computing resources provided by
 \clearpage
 \begin{figure}[p]
 \DIFaddbeginFL \centerline{\includegraphics[width=6in]{figures/fep_mutants.pdf}}
-\caption{\label{fig:fep}\title{\DIFaddFL{Max force versus free energy perturbation.}} \DIFaddFL{Scatter plot of maximum force in SMD versus the relative free energy difference calculated by FEP for all 10 mutants tested plus the WT complex. The WT complex for FEP was simply set to 0.0. The correlation between the two is $r=-0.767$ with $p=0.005857$.}}
+\caption{\label{fig:fep}\title{\DIFaddFL{Max force versus free energy perturbation.}} \DIFaddFL{Scatter plot of maximum force in SMD versus the relative free energy difference calculated by FEP for all 10 mutants tested plus the WT complex. The WT complex for FEP was simply set to 0.0. The correlation between the two is $r=-0.795$ with $p=0.0034$.}}
 \end{figure}
 
 \clearpage
@@ -254,101 +254,5 @@ This work was carried out using high-performance computing resources provided by
 \DIFaddendFL \centerline{\includegraphics[width=6in]{figures/mutant_comparison_boxplot.pdf}}
 \caption{\label{fig:mutant_comparison}\title{Distribution of interpolated maximum force for all bound complexes tested.} Stars above the boxplots indicate a statistically significant difference in mean maximum force relative to the WT complex.}
 \end{figure}
-
-\clearpage
-\begin {table}[H]
-\caption{\label{tab:summary_mutants}Summary of prior information available for each mutation tested. Observed $in~vivo$ refers to mutations that have been observed in rodent populations. Phenotype $in~vitro$ refers to the observed phenotype in $in~vitro$ viral entry assays.} 
-\begin{center}
-  \resizebox{11cm}{!} {
-    \begin{tabular}{l c r r}
-    \hline
-      Mutation & Observed $in~vivo$ & Phenotype $in~vitro$ \\ \hline
-            WT &                Yes &         Normal Entry \\
-         N348A &                 No &                    - \\
-         N348K &                Yes &     Diminished Entry \\
-         N348W &                 No &                    - \\
-         Y211A &                 No &        No Expression \\
-         Y211D &                Yes &        No Expression \\
-         Y211T &                 No &     Diminished Entry \\
-        vR111A &                 No &     Diminished Entry \\
-   N348A/Y211A &                 No &                    - \\
-   N348W/Y211A &                 No &                    - \\
-  vR111A/Y211A &                 No &                    - \\
-    \hline
-    \end{tabular}
-  }
-\end{center}
-\end{table}
-
-\clearpage
-\begin {table}[H]
-\caption{\label{tab:MAF_pairwise}Pairwise differences (row variable minus column variable) in mean maximum applied force. Bolded values are statistically significant at $p<0.05$. Values marked with * and ** are significant at $p<0.01$ and $p<0.001$, respectively.}
-\begin{center}
-  \resizebox{16cm}{!} {
-    \begin{tabular}{l l l l l l l l l l l}
-    \hline
-                & WT                  & N348A              & N348W              & N348K              & Y211A             & Y211D              & Y211T              & vR111A             & N348A/Y211A        & N348W/Y211A        \\ \hline
-    N348A       &  27.33              &                    &                    &                    &                   &                    &                    &                    &                    &                    \\
-    N348W       & -39.87              & \textbf{-67.20}    &                    &                    &                   &                    &                    &                    &                    &                    \\
-    N348K       & -40.64              & \textbf{-67.97}    & -0.77              &                    &                   &                    &                    &                    &                    &                    \\
-    Y211A       & \textbf{-87.97*}    & \textbf{-115.30**} & -48.10             & -47.33             &                   &                    &                    &                    &                    &                    \\
-    Y211D       & \textbf{103.44**}   & \textbf{76.12*}    & \textbf{143.31**}  & \textbf{144.08**}  & \textbf{191.42**} &                    &                    &                    &                    &                    \\
-    Y211T       & \textbf{89.17*}     & \textbf{61.85}     & \textbf{129.04**}  & \textbf{129.81**}  & \textbf{177.15**} & -14.27             &                    &                    &                    &                    \\
-   vR111A       & -17.76              & -44.94             & 22.26              & 23.03              & \textbf{70.36}    & \textbf{-121.05**} & \textbf{-106.78**} &                    &                    &                    \\
-    N348A/Y211A & -9.04               & -36.37             & 30.83              & 31.60              & \textbf{78.93}    & \textbf{-112.48**} & \textbf{-98.21*}   & 8.57               &                    &                    \\
-    N348W/Y211A & \textbf{-154.79**}  & \textbf{-182.12**} & \textbf{-114.92**} & \textbf{-114.15**} & \textbf{-66.2}    & \textbf{-258.23**} & \textbf{-243.96**} & \textbf{-137.18**} & \textbf{-145.75**} &                    \\
-   vR111A/Y211A &  8.71               & -18.12             & 48.58              & 49.35              & \textbf{96.68*}   & \textbf{-94.74*}   & \textbf{-80.46*}   & 26.31              & 0.59               & \textbf{163.50**} \\
-    \hline
-    \end{tabular}
-  }
-\end{center}
-\end{table}
-
-\clearpage
-\begin {table}[H]
-\caption{\label{tab:MAF_p}Pairwise difference $p-$values for maximum applied force. Bolded values are statistically significant at $p<0.05$.}
-\begin{center}
-  \resizebox{16cm}{!} {
-    \begin{tabular}{l l l l l l l l l l l}
-    \hline
-                & WT                      & N348A                   & N348W                   & N348K                   & Y211A                   & Y211D                     & Y211T                   & vR111A                  & N348A/Y211A             & N348W/Y211A \\ \hline
-    N348A       & 0.35                    &                         &                         &                         &                         &                           &                         &                         &                         &        \\
-    N348W       & 0.22                    & \textbf{0.012}          &                         &                         &                         &                           &                         &                         &                         &        \\
-    N348K       & 0.22                    & \textbf{0.012}          & 0.98                    &                         &                         &                           &                         &                         &                         &        \\
-    Y211A       & \textbf{0.0045}         & \textbf{1.6x10$^{-05}$} & 0.14                    & 0.15                    &                         &                           &                         &                         &                         &        \\
-    Y211D       & \textbf{0.00083}        & \textbf{0.0045}         & \textbf{3.9x10$^{-06}$} & \textbf{3.9x10$^{-06}$} & \textbf{5.7x10$^{-10}$} &                           &                         &                         &                         &        \\
-    Y211T       & \textbf{0.0042}         & \textbf{0.022}          & \textbf{3.0x10$^{-05}$} & \textbf{3.0x10$^{-05}$} & \textbf{1.0x10$^{-08}$} & 0.67                      &                         &                         &                         &        \\
-   vR111A       & 0.59                    & 0.11                    & 0.51                    & 0.51                    & \textbf{0.024}          & \textbf{8.9x10$^{-05}$}   & \textbf{0.00056}        &                         &                         &        \\
-    N348A/Y211A & 0.78                    & 0.20                    & 0.35                    & 0.35                    & \textbf{0.011}          & \textbf{0.00026}          & \textbf{0.0016}         & 0.78                    &                         &        \\
-    N348W/Y211A & \textbf{6.2x10$^{-07}$} & \textbf{9.3x10$^{-12}$} & \textbf{0.00021}        & \textbf{0.00026}        & \textbf{0.032}          & \textbf{$<$ 2x10$^{-16}$} & \textbf{2.4x10$^{-15}$} & \textbf{9.1x10$^{-06}$} & \textbf{2.8x10$^{-06}$} &        \\
-   vR111A/Y211A & 0.78                    & 0.52                    & 0.14                    & 0.14                    & \textbf{0.0019}         & \textbf{0.0024}           & \textbf{0.010}          & 0.44                    & 0.59                    & \textbf{1.6x10$^{-07}$}  \\
-    \hline
-    \end{tabular}
-  }
-\end{center}
-\end{table}
-
-\begin {table}[H]
-\caption{\label{tab:AUC_p}Pairwise difference $p-$values for interpolated AUC. Bolded values are statistically significant at $p<0.05$.}
-\begin{center}
-  \resizebox{16cm}{!} {
-    \begin{tabular}{l l l l l l l l l l l}
-    \hline
-                & WT               & N348A                   & N348W           & N348K                   & Y211A                   & Y211D                   & Y211T                   & vR111A          & N348A/Y211A & N348W/Y211A \\ \hline
-    N348A       & 0.77             &                         &                 &                         &                         &                         &                         &                 &             &        \\
-    N348W       & 0.67             & 0.42                    &                 &                         &                         &                         &                         &                 &             &        \\
-    N348K       & 0.17             & 0.056                   & 0.38            &                         &                         &                         &                         &                 &             &        \\
-    Y211A       & \textbf{0.00094} & \textbf{3.5x10$^{-05}$} & \textbf{0.0045} & 0.063                   &                         &                         &                         &                 &             &        \\
-    Y211D       & \textbf{0.0072}  & \textbf{0.0051}         & \textbf{0.0016} & \textbf{4.6x10$^{-05}$} & \textbf{1.2x10$^{-09}$} &                         &                         &                 &             &        \\
-    Y211T       & \textbf{0.016}   & \textbf{0.014}          & \textbf{0.0041} & \textbf{0.00016}        & \textbf{6.1x10$^{-09}$} & 0.77                    &                         &                 &             &        \\
-   vR111A       & 0.38             & 0.18                    & 0.68            & 0.67                    & \textbf{0.016}          & \textbf{0.00032}        & \textbf{0.00094}        &                 &             &        \\
-    N348A/Y211A & 0.061            & \textbf{0.013}          & 0.18            & 0.68                    & 0.17                    & \textbf{5.2x10$^{-06}$} & \textbf{2.1$^{-05}$}    & 0.38            &             &        \\
-    N348W/Y211A & \textbf{0.00017} & \textbf{3.9x10$^{-06}$} & \textbf{0.0011} & \textbf{0.021}          & 0.68                    & \textbf{1.6x10$^{-10}$} & \textbf{6.3x10$^{-10}$} & \textbf{0.0047} & 0.063       &        \\
-   vR111A/Y211A & 0.56             & 0.34                    & 0.86            & 0.47                    & \textbf{0.0072}         & \textbf{0.0010}         & \textbf{0.0025}         & 0.77            & 0.24        & \textbf{0.0019}  \\
-    \hline
-    \end{tabular}
-  }
-\end{center}
-\end{table}
 
 \end{document}
