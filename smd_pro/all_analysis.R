@@ -264,6 +264,7 @@ scatter.plot(data.frame(id=rep('1',length(rowMeans(split.distance.nk))), distanc
 scatter.plot(data.frame(id=rep('1',length(rowMeans(split.distance.ra))), distance=rowMeans(split.distance.ra), force=rowMeans(split.force.ra)), "force_curves/ra.pdf")
 scatter.plot(data.frame(id=rep('1',length(rowMeans(split.distance.na.ya))), distance=rowMeans(split.distance.na.ya), force=rowMeans(split.force.na.ya)), "force_curves/na.ya.pdf")
 scatter.plot(data.frame(id=rep('1',length(rowMeans(split.distance.ra.ya))), distance=rowMeans(split.distance.ra.ya), force=rowMeans(split.force.ra.ya)), "force_curves/ra.ya.pdf")
+scatter.plot(data.frame(id=rep('1',length(rowMeans(split.distance.nw.ya))), distance=rowMeans(split.distance.nw.ya), force=rowMeans(split.force.nw.ya)), "force_curves/nw.ya.pdf")
 
 tmp.scatter.wt <- data.frame(id=rep('1',length(rowMeans(split.distance.wt))), distance=rowMeans(split.distance.wt), force=rowMeans(split.force.wt))
 tmp.scatter.ya <- data.frame(id=rep('2',length(rowMeans(split.distance.ya))), distance=rowMeans(split.distance.ya), force=rowMeans(split.force.ya))
