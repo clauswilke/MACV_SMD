@@ -104,7 +104,8 @@ Apologies.  It was an oversight in the final submission.  They should now be inc
 
 11. Page 6, rows 131, 132. Please provide some more details regarding the "pairwise.t.test function" and the "FDR p-value correction".
 
-We tested for signifiant differences in maximum force or AUC by carrying out t tests for all pairwise combinations (each mutant compared to each other mutant), using the pairwise.t.test() function in R. We adjusted p values to correct for multiple testing using the False-Discovery-Rate (FDR) method (Y. Benjamini  and Y. Hochberg. 1995. Controlling the false discovery rate: a practical and powerful approach to multiple testing. Journal of the Royal Statistical Society, Series B 57:289-300).
+We now write:
+"We tested for signifiant differences in maximum force or AUC by carrying out t tests for all pairwise combinations (each mutant compared to each other mutant), using the pairwise.t.test() function in R. We adjusted p values to correct for multiple testing using the False-Discovery-Rate (FDR) method (Benjamini and Hochberg, 1995).
 
 12. Page 8, row 171. Please avoid odd sentences such as "we generated a physically realistic simulation world", as this is what people usually do when performing Molecular Simulations, there is no need for such an emphasys in a scientific paper.
 
