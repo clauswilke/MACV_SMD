@@ -1,0 +1,109 @@
+
+## Input basics
+structure          wt_ionized.psf
+coordinates        wt_ionized.pdb
+
+# Basic Starting Conditions
+set temperature    310
+temperature        $temperature
+firsttimestep      0
+
+## Force field
+paraTypeCharmm      on
+parameters          par_all27_prot_lipid_na.inp
+
+# output
+set output              wt_ionized
+outputname              $output
+dcdfile                 ${output}.dcd
+xstFile                 ${output}.xst
+dcdfreq                 1000
+xstFreq                 1000
+
+binaryoutput            no
+binaryrestart           no
+outputEnergies          100
+restartfreq             100
+
+# Keep simulation from drifting around
+fixedAtoms          on
+fixedAtomsForces    on
+fixedAtomsFile      fix_back.ref
+fixedAtomsCol       B
+
+# Force-Field Parameters
+exclude             scaled1-4
+1-4scaling          1.0
+cutoff              12.
+switching           on
+switchdist          10.
+pairlistdist        13.5
+
+# Integrator Parameters
+timestep            2.0  ;# 2fs/step
+rigidBonds          all  ;# needed for 2fs steps
+nonbondedFreq       1
+fullElectFrequency  2  
+stepspercycle       10
+
+langevin		on
+langevinDamping		10
+langevinTemp		310
+langevinHydrogen	no
+
+# Periodic Boundary Conditions
+
+cellBasisVector1    58.4    0.    0.
+cellBasisVector2     0.    56.7   0.
+cellBasisVector3     0.     0.   93.7
+cellOrigin         -43.40887451171875 53.37611770629883 25.519887924194336
+
+# the z dimension is going to shrink so pad sufficiently
+# the margin could be reduced once the cell is equilibrated
+margin 5
+
+wrapAll             on
+
+# PME (for full-system periodic electrostatics)
+PME                 yes
+PMEGridSizeX         59
+PMEGridSizeY         57
+PMEGridSizeZ         94
+
+# Constant Pressure Control (variable volume)
+useGroupPressure      yes ;# needed for rigidBonds
+useFlexibleCell       yes
+useConstantArea       yes
+
+langevinPiston		on
+langevinPistonTarget	1.01325
+langevinPistonPeriod	200
+langevinPistonDecay	100
+langevinPistonTemp	310
+
+# Harmonic Constraints
+constraints on
+consref restraint.pdb
+conskfile restraint.pdb
+conskcol B
+constraintScaling 1.0
+
+# Scripting
+
+# Start scripting mode
+minimize            0
+
+# turn off until later
+langevinPiston	off
+
+# minimize nonbackbone atoms
+minimize 1000
+
+# minimize with free protein
+fixedAtoms             off
+minimize 1000
+run 3000
+
+# equilibrate volume with CAs restrained
+langevinPiston	on
+run 1000000

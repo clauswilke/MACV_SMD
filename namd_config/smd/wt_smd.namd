@@ -1,0 +1,73 @@
+           # Input basics
+           structure           wt_ionized.psf
+           
+           # Continuing a job from the restart files
+           if {1} {
+               set inputname      wt_ionized
+               coordinates        $inputname.coor
+               velocities         $inputname.vel
+               extendedSystem     $inputname.xsc
+           }
+           
+           # Basic Starting Conditions
+           firsttimestep       1005000
+           
+           # Force field 
+           paraTypeCharmm      on
+           parameters          par_all27_prot_lipid_na.inp
+           
+           # output
+           set output          wt_ionized_pulled
+           outputname          $output
+           dcdfile             ${output}.dcd
+           xstFile             ${output}.xst
+           dcdfreq     7500
+           xstFreq     7500
+
+           binaryoutput        no
+           binaryrestart       no
+           outputEnergies      7500
+           restartfreq         7500
+
+           # Keep simulation from drifting around
+           fixedAtoms          on
+           fixedAtomsFile      wt_ionized.ref
+           fixedAtomsCol       B
+
+           # Force-Field Parameters
+           exclude             scaled1-4
+           1-4scaling          1.0
+           cutoff              12.
+           switching           on
+           switchdist          10.
+           pairlistdist        13.5
+
+           # Integrator Parameters
+           timestep            2.0
+           rigidBonds          all
+           nonbondedFreq       1
+           fullElectFrequency  2
+           stepspercycle       10
+
+           wrapAll             on
+
+           # PME (for full-system periodic electrostatics)
+           PME                 yes
+           PMEGridSizeX        59
+           PMEGridSizeY        57
+           PMEGridSizeZ        94
+
+           # Constant Velocity SMD settings
+           # The pull velocity is 1 A/ns
+           # The system has been oriented so the 
+           # best pull direction is down the z-axis
+
+           SMD            on
+           SMDFile        wt_ionized.ref
+           SMDk           5
+           SMDVel         0.000002
+           SMDDir         0 0 1
+           SMDOutputFreq  7500
+
+           # Scripting
+           run           7500000
