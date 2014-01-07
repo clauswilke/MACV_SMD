@@ -1,7 +1,7 @@
 #!/bin/csh
 
 # Create Working Directory
-set WDIR = $RESULTS/6_smd/unique_name
+set WDIR = $RESULTS/wt_pro/unique_name
 set FDIR = `pwd`
 
 if ( -d $WDIR ) then
@@ -29,7 +29,7 @@ echo '#\!/bin/bash' > run.q
 echo '#$ -cwd' >> run.q
 echo '#$ -V' >> run.q
 echo '#$ -S /bin/bash' >> run.q
-echo '#$ -N smd_6' >> run.q
+echo '#$ -N hum_smd' >> run.q
 echo '#$ -j y' >> run.q
 echo '#$ -o wt_smd.log' >> run.q
 echo '#$ -e wt_smd.err' >> run.q

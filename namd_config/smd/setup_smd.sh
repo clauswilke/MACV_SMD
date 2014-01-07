@@ -2,7 +2,6 @@
   pull_directory="run_unique";
   smd_set="set_fixed_atom.tcl";
   qsub_file="qsub_smd_current.sh";  
-  query_script="query_distance.py";
 
   if [ -d "$pull_directory" ]; then
     
@@ -18,10 +17,9 @@
       rm $pull_directory/$smd_set
     fi    
 
-    cp $smd_conf       $pull_directory
-    cp $qsub_file      $pull_directory
-    cp $smd_set        $pull_directory
-    cp $query_script   $pull_directory
+    cp $smd_conf  $pull_directory
+    cp $qsub_file $pull_directory
+    cp $smd_set   $pull_directory
     
     cd $pull_directory;
 
