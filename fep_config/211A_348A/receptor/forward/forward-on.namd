@@ -1,0 +1,120 @@
+###################################################
+# Y2A FORWARD DECOUPLE ON
+###################################################
+
+
+# INPUT
+
+set temp                300.0
+temperature             $temp
+
+parameters              par_all27_prot_lipid_na.inp
+paraTypeCharmm          on
+
+exclude                 scaled1-4
+1-4scaling              1.0
+
+# TOPOLOGY
+
+structure               211A_348A_receptor.fep.psf
+
+# INITIAL CONDITIONS
+
+coordinates             211A_348A_receptor.fep
+
+# OUTPUT FREQUENCIES
+
+outputenergies          10000
+outputtiming            10000
+outputpressure          10000
+restartfreq             10000
+XSTFreq                 10000
+DCDFreq                 10000 
+
+# OUTPUT AND RESTART
+
+outputname              forward-on
+restartname             forward-on
+
+binaryoutput            no
+binaryrestart           no
+
+# CONSTANT-T
+langevin                on
+langevinTemp            $temp
+langevinDamping         2.0
+
+# PME
+
+PMEGridSpacing          1.0
+
+# Periodic Boundary Conditions
+cellBasisVector1    90.     0.     0.
+cellBasisVector2     0.    90.     0.
+cellBasisVector3     0.     0.    90.
+cellOrigin           0.     0.     0.
+
+# WRAP WATER FOR OUTPUT
+
+wrapWater                 on
+
+# CONSTANT-P
+
+LangevinPiston          on
+LangevinPistonTarget    1
+LangevinPistonPeriod    100
+LangevinPistonDecay     100
+LangevinPistonTemp      $temp
+
+StrainRate              0.0 0.0 0.0
+useGroupPressure        yes
+
+useFlexibleCell         no
+
+# SPACE PARTITIONING
+
+stepspercycle           20
+
+# CUT-OFFS
+
+switching            on
+switchdist           10.0
+cutoff               12.0
+pairlistdist         14.0
+
+# RESPA PROPAGATOR
+
+timestep             2.0
+fullelectfrequency   2
+nonbondedfreq        1
+
+# SHAKE
+
+rigidbonds              all
+
+# COM
+
+ComMotion            no
+
+# FEP PARAMETERS
+
+source                  fep.tcl
+
+alch                    on
+alchType                fep
+alchFile                211A_348A_receptor.fep
+alchCol                 B
+alchOutFile             forward-on.fepout
+alchOutFreq             100
+
+alchVdwLambdaEnd        1.0
+alchElecLambdaStart     0.5
+alchVdWShiftCoeff       4.0
+alchDecouple            on
+
+alchEquilSteps          100000
+set numSteps            250000
+
+runFEPmin 0.0 0.0 0.0 $numSteps 1000 $temp
+runFEP    0.0 1.0 0.05 $numSteps
+

@@ -1,0 +1,11 @@
+To run the fep simulations, select a particular mutant.  Descend to each of the four bottom level directories.  Modify the run.q file to work with your cluster and run:
+
+qsub run.q
+
+or with a local install of namd you can run:
+
+namd2 +pN *.namd
+
+where N is the desired number of threads on a multicore machine.
+
+After the 4 simulations per mutant have completed, one should gather the four *fepout files; there should be one in each bottom level directory.  Then, since equilibration was done via the runFEPmin command, one should remove the first 250,000 time steps of each simulation. Finally, using the parseFEP tool in VMD, one should select the forward and backward fepout file and select the disp, BAR-estimator, and inaccuracy estimation options.  The final output can be found in the ParseFEP.log file output on the last line.  The dG is calculated by subtracting the dG for the free receptor from the dG for the complex.
